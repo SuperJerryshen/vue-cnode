@@ -2,39 +2,83 @@
   <div class="content-wrap">
     <div class="content-tab-wrap">
       <div class="content-tab">
-        <a href="/?tab=all" class="selected">全部</a>
-        <a href="/?tab=good">精华</a>
-        <a href="/?tab=share">分享</a>
-        <a href="/?tab=ask">问答</a>
-        <a href="/?tab=job">招聘</a>
-        <a href="/?tab=dev">客户端测试</a>
+        <a @click.prevent="changeTab('all')" href="/" :class="{'selected': selectedTab === 'all'}">全部</a>
+        <a @click.prevent="changeTab('good')" href="/" :class="{'selected': selectedTab === 'good'}">精华</a>
+        <a @click.prevent="changeTab('share')" href="/" :class="{'selected': selectedTab === 'share'}">分享</a>
+        <a @click.prevent="changeTab('ask')" href="/" :class="{'selected': selectedTab === 'ask'}">问答</a>
+        <a @click.prevent="changeTab('job')" href="/" :class="{'selected': selectedTab === 'job'}">招聘</a>
+        <a @click.prevent="changeTab('dev')" href="/" :class="{'selected': selectedTab === 'dev'}">客户端测试</a>
       </div>
     </div>
-    <div class="content">
+    <div class="content" ref="content">
       <ul class="content-list">
-        <li v-for="(item, idx) of repliedData" class="article">
+        <li v-for="(item, idx) in articleLists" class="article">
           <article-card :articleOverview="item"></article-card>
         </li>
       </ul>
+      <div class="loading" v-show="isLoading">拼命加载中</div>
     </div>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
   import ArticleCard from './ArticleCard'
+  import { mapGetters } from 'vuex'
 
   export default {
-    data () {
-      return {
-        repliedData: []
+    computed: {
+      ...mapGetters([
+        'selectedTab',
+        'articleLists',
+        'pageCount',
+        'isLoading'
+      ])
+    },
+    methods: {
+      changeTab (tabType) {
+        // 该函数负责发起服务器请求，并分发（dispatch）
+        // 'changeTab'和'changeTabData'的actions。
+        // 功能：转换tab主题，返回页面首部，并请求数据。
+        this.axios.get(`https://cnodejs.org/api/v1/topics/?tab=${tabType}&page=1`)
+          .then(res => {
+            this.$store.dispatch('changeTab', tabType)
+            this.$store.dispatch('changeTabData', res.data.data)
+          })
+        // 使页面回到顶部
+        this.$refs.content.scrollTop = 0
+      },
+      loadMoreData (tabType, pageCount) {
+        // 功能：实现滑到页面最底端时，动态加载后面的数据。
+        // 通过向服务器发起请求，分发（dispatch）loadMoreData的actions
+        this.axios.get(`https://cnodejs.org/api/v1/topics/?tab=${tabType}&page=${pageCount}`)
+          .then(res => {
+            this.$store.dispatch('loadMoreData', res.data.data)
+          })
       }
     },
     created () {
+      // 当virtual dom创建完成后，
+      // 就开始向服务器请求数据，并初始化。
       this.axios.get('https://cnodejs.org/api/v1/topics/?tab=all&page=1')
         .then(res => {
-          this.repliedData = res.data.data
-          window.console.log(this.repliedData)
+          this.$store.dispatch('changeTab', 'all')
+          this.$store.dispatch('changeTabData', res.data.data)
         })
+    },
+    mounted () {
+      // 当内容挂在到页面上以后，
+      // 通过scroll事件，监听页面的变化，
+      // 当offsetHeight - scrollTop <= height时，
+      // （即页面总高度 - 页面顶部滑动的高度 <= 窗口高度）开始异步加载数据
+      this.$refs.content.addEventListener('scroll', (e) => {
+        if (!this.isLoading && e.target.scrollHeight - e.target.scrollTop <= e.target.offsetHeight) {
+          // 对于手机端，仅仅通过高度差判断，且条件成立时，屏幕有可能还在滑动，就会触发更多次请求
+          // 为了解决这个问题，在vuex加入了一个isLoading的变量，表示现在正在请求加载数据
+          // 从而使得加载不会过量
+          this.$store.dispatch('changeLoadingStatus')
+          this.loadMoreData(this.selectedTab, this.pageCount)
+        }
+      })
     },
     components: {
       ArticleCard
@@ -45,10 +89,19 @@
 <style lang="scss">
   .content-wrap {
     background-color: #EFF2F7;
+    flex: 1;
+    display: flex;
+    position: relative;
+    flex-direction: column;
     .content-tab-wrap {
       width: 100%;
-      height: 30px;
-      line-height: 30px;
+      height: 36px;
+      line-height: 36px;
+      flex: 0 0 36px;
+      position: absolute;
+      z-index: 9999;
+      top: 0;
+      left: 0;
       background: #1F2D3D;
       color: #ffffff;
       border-top: 1px solid #475669;
@@ -82,6 +135,23 @@
           margin: 0 auto;
           padding-left: 0;
         }
+      }
+    }
+    .content {
+      flex: 1;
+      width: 100%;
+      overflow: scroll;
+      -webkit-overflow-scrolling: touch;
+      overflow-scrolling: touch;
+      padding-top: 36px;
+      .loading {
+        width: 100%;
+        height: 40px;
+        line-height: 40px;
+        font-size: 14px;
+        background-color: #20a0ff;
+        color: #ffffff;
+        text-align: center;
       }
     }
   }

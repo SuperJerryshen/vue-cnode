@@ -4,11 +4,13 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import content from './modules/content'
+import article from './modules/article'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   modules: {
-    content
+    content,
+    article
   }
 })

@@ -4,6 +4,7 @@
   box-sizing: border-box;
   outline: none;
   border: none;
+  Font-family: Helvetica, Tahoma, Arial, “Microsoft YaHei”, “微软雅黑”, SimSun, “宋体”, STXihei, “华文细黑”, Heiti, “黑体”, sans-serif
 }
 
 html, body {
@@ -18,7 +19,7 @@ button {
 a {
   position: relative;
   text-decoration: none;
-  color: #3F51B5;
+  color: #1F2D3D;
   cursor: pointer;
 }
 
@@ -33,10 +34,10 @@ a::after {
   transform: scaleX(0);
   transition: .3s ease-in-out;
 }
-a:hover::after {
-  transform: scaleX(1);
-  transition: .3s ease-in-out;
+a:hover {
+  color: #20A0FF!important;
 }
+
 @keyframes loading {
   from {
     transform: rotate(0);
@@ -46,13 +47,6 @@ a:hover::after {
   }
 }
 
-pre, code {display: block;overflow: auto;background: #f4f4f4;padding: 5px 10px;border: 1px solid #eee;word-wrap:break-word; /* Internet Explorer 5.5+ */ white-space: pre-wrap; /* Firefox */}
-
-i, li {
-  cursor: pointer;
-}
-
-
 .markdown-text {
   width: 100%;
   border-radius: 0 0 4px 4px;
@@ -60,6 +54,7 @@ i, li {
   border-bottom: 1px solid rgba(0, 0, 0, .1);
   margin-bottom: 10px;
   background-color: white;
+  word-wrap: break-word;
   li {
     list-style: none;
   }
@@ -112,6 +107,19 @@ i, li {
       font-size: 80%;
       overflow: auto;
     }
+  }
+  code {overflow: auto;background: #f4f4f4;padding: 5px 10px;border: 1px solid #eee;}
+  pre {
+    background: #f4f4f4;
+    overflow: auto;
+    padding: 5px 10px;
+  }
+  pre > code {line-height: 20px;
+    border:none;}
+  blockquote {
+    border-left: 8px solid #D3DCE6;
+    color: #475669;
+    padding-left: 20px;
   }
 }
 

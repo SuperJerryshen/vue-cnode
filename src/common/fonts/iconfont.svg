@@ -2,7 +2,7 @@
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd" >
 <svg xmlns="http://www.w3.org/2000/svg">
 <metadata>
-Created by FontForge 20120731 at Wed Jul 12 13:27:36 2017
+Created by FontForge 20120731 at Thu Jul 13 16:31:12 2017
  By admin
 </metadata>
 <defs>
@@ -19,7 +19,7 @@ Created by FontForge 20120731 at Wed Jul 12 13:27:36 2017
     bbox="44 -31 956 805"
     underline-thickness="0"
     underline-position="0"
-    unicode-range="U+0078-E71B"
+    unicode-range="U+0078-E749"
   />
 <missing-glyph 
  />
@@ -45,6 +45,8 @@ q0 73 -44.5 132t-115.5 73q-11 5 -17 14t-2 18v6q0 10 -9 18t-23 8q-32 0 -32 -26v-6
 d="M703 39q-7 0 -13 3l-249 137h-83q-116 0 -200 88t-84 208v51q0 116 83 197.5t201 81.5h308q117 0 200.5 -81.5t83.5 -197.5v-51q0 -100 -60 -174t-159 -98v-137q0 -15 -14 -23q-6 -4 -14 -4zM358 751q-95 0 -162 -66t-67 -159v-51q0 -97 68.5 -169.5t160.5 -72.5h90
 q7 0 13 -3l215 -118v113q0 10 6.5 17.5t16.5 9.5q89 15 142.5 76t53.5 147v51q0 93 -67 159t-162 66h-308zM361 491zM320 491q0 17 12 29t29 12t29 -12t12 -29t-12 -29t-29 -12t-29 12t-12 29zM526 491zM484 491q0 17 12.5 29t29 12t29 -12t12.5 -29t-12.5 -29t-29 -12
 t-29 12t-12.5 29zM690 491zM649 491q0 17 12 29t29 12t29 -12t12 -29t-12 -29t-29 -12t-29 12t-12 29z" />
+    <glyph glyph-name="houtui" unicode="&#xe749;" 
+d="M695 56l-296 299l286 295q9 9 9 22.5t-9 22.5q-9 10 -22 10t-22 -10l-310 -320q-9 -10 -9 -23t9 -22q2 -2 8 -6l311 -314q10 -10 23 -10t23 10q8 9 8 22.5t-9 23.5z" />
     <glyph glyph-name="praise_fill" unicode="&#xe71a;" 
 d="M866 514q-24 30 -66 30h-165q10 30 11 68.5t-2 54.5t-5 26q-1 6 -5 11q-9 26 -35.5 45t-54.5 19q-38 0 -65.5 -26.5t-29.5 -64.5h-1v-21q0 -21 -11 -45.5t-27 -37.5q-25 -23 -58 -27v-514h384q24 0 44.5 16.5t25.5 40.5l76 354q9 41 -16 71zM192 544q-26 0 -45 -19
 t-19 -45v-384q0 -26 18.5 -45t45.5 -19h96v512h-96z" />

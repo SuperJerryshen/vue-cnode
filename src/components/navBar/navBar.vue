@@ -13,9 +13,9 @@
 <style>
   .nav-bar {
     width: 100%;
-    height: 50px;
     background: #1F2D3D;
     padding: 10px;
+    flex: 0 0 50px;
   }
 
   /*屏幕宽度小于450px的设备*/

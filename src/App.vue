@@ -1,18 +1,17 @@
 <template>
   <div id="app">
-    <nav-bar></nav-bar>
     <router-view></router-view>
   </div>
 </template>
 
 <script>
-  import navBar from './components/navBar/navBar'
+  import NavBar from './components/navBar/navBar'
   import './common/style/icon.scss'
 
   export default {
     name: 'app',
     components: {
-      navBar
+      NavBar
     }
   }
 </script>

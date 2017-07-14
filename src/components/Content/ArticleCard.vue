@@ -4,7 +4,7 @@
     <span class="good" v-if="articleOverview.good">精华</span><span v-if="articleOverview.good"> ·</span>
     <span class="tab">{{ this.tabTypes[articleOverview.tab] }}</span> ·
     <span class="last-reply-time">{{ articleOverview.last_reply_at.slice(0, 10)}}</span>
-    <h1 class="title">{{ articleOverview.title }}</h1>
+    <h1 class="title"><router-link :to="{ name: 'article', params: {id: articleOverview.id}}">{{ articleOverview.title }}</router-link></h1>
     <div class="author">
       <img class="avatar" :src="articleOverview.author.avatar_url" alt="articleOverview.author.loginname">
       <p class="loginname">{{ articleOverview.author.loginname }}</p>
@@ -61,6 +61,9 @@
     font-size: 10px;
     position: relative;
     min-height: 100px;
+    &:hover {
+      background-color: #F9FAFC;
+    }
     /*对置顶，精华，和类型分配颜色样式*/
     .top {
       color: #FF4949;
@@ -75,13 +78,14 @@
     .title {
       font-size: 16px;
       padding: 10px 60px 10px 0;
+      word-wrap: break-word;
     }
     /*用户头像及用户名*/
     .author {
       position: absolute;
       bottom: 50%;
       transform: translateY(50%);
-      right: 10px;
+      right: 20px;
       text-align: center;
       width: 48px;
       .avatar {
