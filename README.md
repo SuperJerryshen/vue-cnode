@@ -18,6 +18,65 @@ Sass: CSS预编译器
 
 ![CNode需求分析图](/src/pic/CNode功能需求分析.png)
 
+## 项目结构
+```$xslt
+.
+├── README.md
+├── build
+│   ├── build.js
+│   ├── check-versions.js
+│   ├── dev-client.js
+│   ├── dev-server.js
+│   ├── utils.js
+│   ├── vue-loader.conf.js
+│   ├── webpack.base.conf.js
+│   ├── webpack.dev.conf.js
+│   └── webpack.prod.conf.js
+├── config
+│   ├── dev.env.js
+│   ├── index.js
+│   └── prod.env.js
+├── index.html
+├── package.json
+├── src
+│   ├── App.vue
+│   ├── common
+│   │   ├── fonts
+│   │   │   ├── iconfont.eot
+│   │   │   ├── iconfont.svg
+│   │   │   ├── iconfont.ttf
+│   │   │   └── iconfont.woff
+│   │   └── style
+│   │       ├── base.scss
+│   │       └── icon.scss
+│   ├── components
+│   │   ├── Article
+│   │   │   └── Article.vue
+│   │   ├── Content
+│   │   │   ├── ArticleCard.vue
+│   │   │   └── Content.vue
+│   │   ├── Home.vue
+│   │   ├── Loading
+│   │   │   └── Loading.vue
+│   │   └── navBar
+│   │       ├── cnodejs_light.svg
+│   │       └── navBar.vue
+│   ├── main.js
+│   ├── pic
+│   │   └── CNode功能需求分析.png
+│   ├── router
+│   │   └── index.js
+│   └── store
+│       ├── modules
+│       │   ├── article-mutation-types.js
+│       │   ├── article.js
+│       │   ├── content-mutation-types.js
+│       │   └── content.js
+│       └── store.js
+└── static
+
+```
+
 ## 功能实现情况
  - [x] 首页列表
  - [x] 拖至页面底部时，自动加载后续内容
@@ -28,12 +87,17 @@ Sass: CSS预编译器
  - [ ] 用户登录
  - [ ] 用户退出
  - [ ] 个人主页
+ - [ ] 消息通知，消息设置已读
  - [ ] 关于
  
  ## 心得体会
- > 本项目算是本人第一个完整的手机和pc都兼容，有关于文章展示的项目。整个项目做下来，体会也是非常多的。
+ > 本项目算是本人第一个完整的手机和pc都兼容，有关于文章展示的项目。整个项目做下来，遇到的Bug很多，自然收获也是很多。总结下来如下：
+ 1. 很长的单词会超出边界，导致可视区域变宽。
+   解决办法：通过`word-wrap: break-word;`实现打断效果。
+ 2. 第二次进入文章时，会残留（暂未解决）。
+ 3. 回到首页时，不能保留原来的状态（暂未解决）。
 
-## Build Setup
+## 安装
 
 ``` bash
 # install dependencies
