@@ -9,10 +9,10 @@
 <script>
   import './common/style/icon.scss'
   import * as cookie from './common/utils/cookie'
-
+  
   export default {
     name: 'app',
-    created () {
+    created() {
       const token = cookie.getCookie('userToken')
       this.axios.post('https://cnodejs.org/api/v1/accesstoken', token)
         .then(res => {
@@ -21,8 +21,10 @@
           }
         })
     },
-    mounted () {
-      this.axios.post('https://cnodejs.org/api/v1/accesstoken', {accesstoken: 'aa0daae4-aae5-4793-b903-16c3bdef6738'})
+    mounted() {
+      this.axios.post('https://cnodejs.org/api/v1/accesstoken', {
+          accesstoken: 'aa0daae4-aae5-4793-b903-16c3bdef6738'
+        })
         .then(res => {
           console.log(res)
         })

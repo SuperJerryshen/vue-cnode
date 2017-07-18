@@ -1,10 +1,10 @@
 # CNode-Vue
 
-##前言
+## 前言
 > 感谢[CNode社区](https://cnodejs.org/)提供的API，项目的来源就是因为在CNode官网看到了API接口，所以才萌生了做一个Vue项目的想法。
 
 ## 技术栈
-```$xslt
+```
 Vue2.0: 构建项目，属于底层框架
 Vue-Router: 通过hash值的变化，从而改变页面结构的路由。
 Vuex: Vue官方提供的状态管理模式。
