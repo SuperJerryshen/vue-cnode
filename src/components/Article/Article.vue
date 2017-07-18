@@ -1,14 +1,17 @@
 <template>
   <div class="article-wrap">
     <div class="article" v-show="!isLoading" v-if="articleData">
-      <div class="article-bar" v-if="this.devicePixelRatio > 1">
-        <span class="iconfont icon-houtui" @click="backToHome"></span><h1 class="bar-article">{{ articleData.title }}</h1>
-      </div>
+      <back-bar :title="articleData.title"></back-bar>
       <div class="article-content">
         <div class="header">
           <h1 class="title">{{ articleData.title }}</h1>
           <span class="top" v-if="articleData.top">置顶</span>
-          <span class="good" v-if="articleData.good">精华</span> · <span class="publish-time" v-if="articleData.create_at">发布于{{ articleData.create_at | timeFormat }}</span> · <span class="author" v-if="articleData.author.loginname">作者 {{ articleData.author.loginname }}</span> · <span class="visit-count">{{ articleData.reply_count }}次浏览</span> · <span class="last-reply" v-if="articleData">最后回复于{{ articleData.last_reply_at | timeFormat }}</span> · <span class="tab">{{ tabTypes[articleData.tab] }}</span>
+          <span class="good" v-if="articleData.good">精华</span> · <span class="publish-time"
+                                                                       v-if="articleData.create_at">发布于{{ articleData.create_at | timeFormat
+          }}</span> · <span class="author" v-if="articleData.author.loginname">作者 {{ articleData.author.loginname
+          }}</span> · <span class="visit-count">{{ articleData.reply_count }}次浏览</span> · <span class="last-reply"
+                                                                                                v-if="articleData">最后回复于{{ articleData.last_reply_at | timeFormat
+          }}</span> · <span class="tab">{{ tabTypes[articleData.tab] }}</span>
         </div>
         <div class="content" v-html="articleData.content"></div>
         <div class="reply">
@@ -16,7 +19,7 @@
           <ul class="comments">
             <li class="comment" v-for="(item,idx) in articleData.replies">
               <div class="reply-author">
-                <img class="avatar" :src="item.author.avatar_url" alt="author" />
+                <img @click="toAuthorDetail(item.author.loginname)" class="avatar" :src="item.author.avatar_url" alt="author"/>
                 <span class="loginname">{{ item.author.loginname }}</span>
                 <span class="floor">{{ idx + 1 }}楼</span> ·
                 <span class="time">{{ item.create_at | timeFormat }}</span>
@@ -30,13 +33,14 @@
         </div>
       </div>
     </div>
-    <loading v-show="isLoading"></loading>
+    <loading v-if="isLoading"></loading>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
   import { mapGetters } from 'vuex'
   import Loading from '../Loading/Loading'
+  import BackBar from '../BackBar/BackBar'
   import timeFormat from '../../common/utils/timeFormat'
 
   export default {
@@ -51,6 +55,11 @@
         }
       }
     },
+    methods: {
+      toAuthorDetail (name) {
+        this.$router.push(`/user/${name}`)
+      }
+    },
     computed: {
       ...mapGetters([
         'articleData'
@@ -62,14 +71,11 @@
     filters: {
       'timeFormat': timeFormat
     },
-    methods: {
-      backToHome () {
-        this.$router.back()
-      }
+    created () {
+      this.isLoading = true
     },
     beforeRouteEnter (to, from, next) {
       next(vm => {
-        console.log(vm.isLoading)
         vm.axios.get(`https://cnodejs.org/api/v1/topic/${vm.$route.params.id}`)
           .then(res => {
             vm.isLoading = false
@@ -82,20 +88,14 @@
       next()
     },
     components: {
-      Loading
+      Loading,
+      BackBar
     }
   }
 </script>
 
 <style lang="scss" rel="stylesheet/scss">
-  .slide-enter-active, .slide-leave-active {
-    transition: transform .5s ease;
-  }
-  .slide-enter, .slide-leave-to {
-    transform: translateX(100%);
-  }
   .article-wrap {
-    flex: 1;
     position: absolute;
     top: 0;
     left: 0;
@@ -103,13 +103,13 @@
     height: 100%;
     background-color: #EFF2F7;
     /*屏幕宽度小于450px的设备*/
-    @media screen and (max-width: 1200px){
+    @media screen and (max-width: 1200px) {
       .article {
         width: 100%;
       }
     }
     /*屏幕宽度大于1200px的设备*/
-    @media screen and (min-width: 1200px){
+    @media screen and (min-width: 1200px) {
       .article {
         width: 1200px;
       }
@@ -118,36 +118,7 @@
       margin: 0 auto;
       position: relative;
       height: 100%;
-      display: flex;
-      flex-direction: column;
-      .article-bar {
-        width: 100%;
-        height: 48px;
-        line-height: 48px;
-        flex: 0 0 48px;
-        background-color: #1F2D3D;
-        color: #ffffff;
-        position: absolute;
-        z-index: 9999;
-        .icon-houtui {
-          line-height: 28px;
-          font-size: 24px;
-          padding: 10px 20px 10px 10px;
-          position: absolute;
-          left: 0;
-        }
-        .bar-article {
-          margin: 0 auto;
-          text-align: center;
-          font-size: 14px;
-          max-width: 16em;
-          text-overflow: ellipsis;
-          white-space: nowrap;
-          overflow: hidden;
-        }
-      }
       .article-content {
-        flex: 1;
         width: 100%;
         overflow: scroll;
         -webkit-overflow-scrolling: touch;

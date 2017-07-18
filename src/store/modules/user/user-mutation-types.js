@@ -1,2 +1,2 @@
-// 初始化用户登录信息
-export const INIT_USER_DATA = 'INIT_USER_DATA'
+// 初始化用户详细的数据
+export const INIT_USER_DETAIL_DATA = 'INIT_USER_DETAIL_DATA'

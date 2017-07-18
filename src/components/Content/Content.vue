@@ -1,5 +1,5 @@
 <template>
-  <div class="content-wrap" ref="content">
+  <div class="content-wrap">
     <nav-bar></nav-bar>
     <div class="content-tab-wrap">
       <div class="content-tab">
@@ -14,7 +14,7 @@
     <div class="content">
       <ul class="content-list">
         <li v-for="(item, idx) in articleLists" class="article">
-          <article-card :articleOverview="item"></article-card>
+          <article-card :article="item"></article-card>
         </li>
       </ul>
       <div class="loading" v-show="isLoading">拼命加载中</div>
@@ -64,7 +64,7 @@
           })
       },
       backToTop () {
-        this.$refs.content.scrollTop = 0
+        window.scrollTo(0, 0)
       }
     },
     created () {
@@ -79,18 +79,18 @@
     mounted () {
       // 当内容挂在到页面上以后，
       // 通过scroll事件，监听页面的变化，
-      // 当scrollHeight - scrollTop <= offsetHeight时，
+      // 当document.documentElement.offsetHeight - window.scrollY
+      // <= document.documentElement.clientHeight时，
       // （即页面总高度 - 页面顶部滑动的高度 <= 窗口高度）开始异步加载数据
-      this.$refs.content.addEventListener('scroll', (e) => {
-        this.$store.dispatch('recordScrollTop', e.target.scrollTop)
-        if (!this.isLoading && e.target.scrollHeight - e.target.scrollTop <= e.target.offsetHeight) {
+      window.addEventListener('scroll', () => {
+        if (!this.isLoading && document.documentElement.offsetHeight - window.scrollY <= document.documentElement.clientHeight) {
           // 对于手机端，仅仅通过高度差判断，且条件成立时，屏幕有可能还在滑动，就会触发更多次请求
           // 为了解决这个问题，在vuex加入了一个isLoading的变量，表示现在正在请求加载数据
           // 从而使得加载不会过量
           this.$store.dispatch('changeLoadingStatus')
           this.loadMoreData(this.selectedTab, this.pageCount)
         }
-        if (e.target.scrollTop > 100) {
+        if (window.scrollY > 200) {
           if (this.isTopShow === false) {
             this.$store.dispatch('backToTop', true)
           }
@@ -99,11 +99,6 @@
             this.$store.dispatch('backToTop', false)
           }
         }
-      })
-    },
-    beforeRouteEnter (to, from, next) {
-      next(vm => {
-        vm.$refs.content.scrollTop = vm.scrollTop
       })
     },
     components: {
@@ -116,14 +111,8 @@
 <style lang="scss">
   .content-wrap {
     background-color: #EFF2F7;
-    position: absolute;
     width: 100%;
-    height: 100%;
     padding-top: 86px;
-    overflow: scroll;
-    -webkit-overflow-scrolling: touch;
-    overflow-scrolling: touch;
-    flex-direction: column;
     .content-tab-wrap {
       width: 100%;
       height: 36px;
@@ -132,9 +121,10 @@
       left: 0;
       top: 50px;
       z-index: 99;
-      background: #1F2D3D;
+      background: rgba(7, 17, 27, .8);
+      -webkit-backdrop-filter: blur(8px);
       color: #ffffff;
-      border-top: 1px solid #475669;
+      border-top: 1px solid rgba(255, 255, 255, .8);
       .content-tab {
         padding-left: 10px;
         a {
@@ -152,14 +142,14 @@
         }
       }
       /*屏幕宽度小于450px的设备*/
-      @media screen and (max-width: 1200px){
+      @media screen and (max-width: 1200px) {
         .content-tab {
           width: 100%;
           margin: 0 auto;
         }
       }
       /*屏幕宽度大于1200px的设备*/
-      @media screen and (min-width: 1200px){
+      @media screen and (min-width: 1200px) {
         .content-tab {
           width: 1200px;
           margin: 0 auto;
@@ -168,7 +158,6 @@
       }
     }
     .content {
-      flex: 1;
       width: 100%;
       .loading {
         width: 100%;

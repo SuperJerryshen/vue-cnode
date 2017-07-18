@@ -1,25 +1,30 @@
 <template>
   <div class="article-card">
-    <span class="top" v-if="articleOverview.top">置顶</span><span v-if="articleOverview.top"> ·</span>
-    <span class="good" v-if="articleOverview.good">精华</span><span v-if="articleOverview.good"> ·</span>
-    <span class="tab">{{ this.tabTypes[articleOverview.tab] }}</span> ·
-    <span class="last-reply-time">{{ articleOverview.last_reply_at | timeFormat}}</span>
-    <h1 class="title"><router-link :to="{ name: 'article', params: {id: articleOverview.id}}">{{ articleOverview.title }}</router-link></h1>
-    <div class="author">
-      <img class="avatar" :src="articleOverview.author.avatar_url" alt="articleOverview.author.loginname">
-      <p class="loginname">{{ articleOverview.author.loginname }}</p>
+    <span v-if="!simpleMode">
+      <span class="top" v-if="article.top">置顶</span><span v-if="article.top"> ·</span>
+      <span class="good" v-if="article.good">精华</span><span v-if="article.good"> ·</span>
+      <span class="tab">{{ this.tabTypes[article.tab] }}</span> ·
+    </span>
+    <span class="last-reply-time">{{ article.last_reply_at | timeFormat}}</span>
+    <h1 class="title">
+      <router-link :to="{ name: 'article', params: {id: article.id}}">{{ article.title }}</router-link>
+    </h1>
+    <div class="author" @click="toAuthorDetail">
+      <img class="avatar" :src="article.author.avatar_url" alt="article.author.loginname">
+      <p class="loginname">{{ article.author.loginname }}</p>
     </div>
-    <div class="info">
+    <div class="info" v-if="!simpleMode">
       <i class="iconfont icon-clickQuery"></i>
-      <span class="visit-count">{{ articleOverview.visit_count }}</span>
+      <span class="visit-count">{{ article.visit_count }}</span>
       <i class="iconfont icon-pinglun"></i>
-      <span class="reply-count">{{ articleOverview.reply_count }}</span>
+      <span class="reply-count">{{ article.reply_count }}</span>
     </div>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
   import timeFormat from '../../common/utils/timeFormat'
+
   export default {
     data () {
       return {
@@ -32,12 +37,22 @@
         }
       }
     },
+    methods: {
+      toAuthorDetail () {
+        this.$router.push(`/user/${this.article.author.loginname}`)
+      }
+    },
     filters: {
       'timeFormat': timeFormat
     },
     props: {
-      articleOverview: {
-        type: Object
+      article: {
+        type: Object,
+        required: true
+      },
+      simpleMode: {
+        type: Boolean,
+        default: false
       }
     }
   }
@@ -45,18 +60,20 @@
 
 <style lang="scss" rel="stylesheet/scss">
   /*屏幕宽度小于450px的设备*/
-  @media screen and (max-width: 1200px){
+  @media screen and (max-width: 1200px) {
     .article-card {
       width: 100%;
 
     }
   }
+
   /*屏幕宽度大于1200px的设备*/
-  @media screen and (min-width: 1200px){
+  @media screen and (min-width: 1200px) {
     .article-card {
       width: 1200px;
     }
   }
+
   .article-card {
     margin: 0 auto;
     padding: 12px 24px;

@@ -5,3 +5,18 @@
 .fadeIn-enter, .fadeIn-leave-to /* .fade-leave-active 在 <2.1.8 中 */ {
   opacity: 0;
 }
+// slide
+.slide-enter-active, .slide-leave-active {
+  transition: transform .5s ease;
+}
+.slide-enter, .slide-leave-to {
+  transform: translateX(100%);
+}
+// pulldown
+.pulldown-enter-active, .pulldown-leave-active {
+  transition: transform .5s ease;
+  transform-origin: top left;
+}
+.pulldown-enter, .pulldown-leave-to {
+  transform: scaleY(0);
+}

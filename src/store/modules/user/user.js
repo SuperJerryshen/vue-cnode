@@ -1,32 +1,30 @@
-/**
- * Created by jerryshen on 2017/7/17.
- */
 import * as types from './user-mutation-types'
 
 const state = {
-  isLogin: false,
-  userData: {
-    avatar_url: '',
-    id: '',
+  userDetailData: {
     loginname: '',
-    success: false
+    avatar_url: '',
+    githubUsername: '',
+    create_at: '',
+    score: 0,
+    recent_topics: [],
+    recent_replies: []
   }
 }
 
 const getters = {
-  isLogin: state => state.isLogin,
-  userData: state => state.userData
+  userDetailData: state => state.userDetailData
 }
 
 const mutations = {
-  [types.INIT_USER_DATA] (state, data) {
-    state.userData = data
+  [types.INIT_USER_DETAIL_DATA] (state, data) {
+    state.userDetailData = data
   }
 }
 
 const actions = {
-  initUserData ({ commit }, data) {
-    commit(types.INIT_USER_DATA, data)
+  initUserDetailData ({commit}, data) {
+    commit(types.INIT_USER_DETAIL_DATA, data)
   }
 }
 
