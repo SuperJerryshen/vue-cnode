@@ -1,5 +1,6 @@
 <template>
-  <div class="content-wrap">
+  <div class="content-wrap" ref="content">
+    <nav-bar></nav-bar>
     <div class="content-tab-wrap">
       <div class="content-tab">
         <a @click.prevent="changeTab('all')" href="/" :class="{'selected': selectedTab === 'all'}">全部</a>
@@ -10,13 +11,17 @@
         <a @click.prevent="changeTab('dev')" href="/" :class="{'selected': selectedTab === 'dev'}">客户端测试</a>
       </div>
     </div>
-    <div class="content" ref="content">
+    <div class="content">
       <ul class="content-list">
         <li v-for="(item, idx) in articleLists" class="article">
           <article-card :articleOverview="item"></article-card>
         </li>
       </ul>
       <div class="loading" v-show="isLoading">拼命加载中</div>
+      <div class="back-to-top" v-show="isTopShow" @click="backToTop">
+        <i class="iconfont icon-back-to-top"></i>
+        <p class="text">回到顶部</p>
+      </div>
     </div>
   </div>
 </template>
@@ -24,6 +29,7 @@
 <script type="text/ecmascript-6">
   import ArticleCard from './ArticleCard'
   import { mapGetters } from 'vuex'
+  import NavBar from '../navBar/navBar'
 
   export default {
     computed: {
@@ -31,7 +37,9 @@
         'selectedTab',
         'articleLists',
         'pageCount',
-        'isLoading'
+        'isLoading',
+        'scrollTop',
+        'isTopShow'
       ])
     },
     methods: {
@@ -50,10 +58,13 @@
       loadMoreData (tabType, pageCount) {
         // 功能：实现滑到页面最底端时，动态加载后面的数据。
         // 通过向服务器发起请求，分发（dispatch）loadMoreData的actions
-        this.axios.get(`https://cnodejs.org/api/v1/topics/?tab=${tabType}&page=${pageCount}`)
+        this.axios.get(`https://cnodejs.org/api/v1/topics/?tab=${tabType}&page=${pageCount + 1}`)
           .then(res => {
             this.$store.dispatch('loadMoreData', res.data.data)
           })
+      },
+      backToTop () {
+        this.$refs.content.scrollTop = 0
       }
     },
     created () {
@@ -68,9 +79,10 @@
     mounted () {
       // 当内容挂在到页面上以后，
       // 通过scroll事件，监听页面的变化，
-      // 当offsetHeight - scrollTop <= height时，
+      // 当scrollHeight - scrollTop <= offsetHeight时，
       // （即页面总高度 - 页面顶部滑动的高度 <= 窗口高度）开始异步加载数据
       this.$refs.content.addEventListener('scroll', (e) => {
+        this.$store.dispatch('recordScrollTop', e.target.scrollTop)
         if (!this.isLoading && e.target.scrollHeight - e.target.scrollTop <= e.target.offsetHeight) {
           // 对于手机端，仅仅通过高度差判断，且条件成立时，屏幕有可能还在滑动，就会触发更多次请求
           // 为了解决这个问题，在vuex加入了一个isLoading的变量，表示现在正在请求加载数据
@@ -78,9 +90,24 @@
           this.$store.dispatch('changeLoadingStatus')
           this.loadMoreData(this.selectedTab, this.pageCount)
         }
+        if (e.target.scrollTop > 100) {
+          if (this.isTopShow === false) {
+            this.$store.dispatch('backToTop', true)
+          }
+        } else {
+          if (this.isTopShow === true) {
+            this.$store.dispatch('backToTop', false)
+          }
+        }
+      })
+    },
+    beforeRouteEnter (to, from, next) {
+      next(vm => {
+        vm.$refs.content.scrollTop = vm.scrollTop
       })
     },
     components: {
+      NavBar,
       ArticleCard
     }
   }
@@ -89,19 +116,22 @@
 <style lang="scss">
   .content-wrap {
     background-color: #EFF2F7;
-    flex: 1;
-    display: flex;
-    position: relative;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    padding-top: 86px;
+    overflow: scroll;
+    -webkit-overflow-scrolling: touch;
+    overflow-scrolling: touch;
     flex-direction: column;
     .content-tab-wrap {
       width: 100%;
       height: 36px;
       line-height: 36px;
-      flex: 0 0 36px;
-      position: absolute;
-      z-index: 9999;
-      top: 0;
+      position: fixed;
       left: 0;
+      top: 50px;
+      z-index: 99;
       background: #1F2D3D;
       color: #ffffff;
       border-top: 1px solid #475669;
@@ -140,10 +170,6 @@
     .content {
       flex: 1;
       width: 100%;
-      overflow: scroll;
-      -webkit-overflow-scrolling: touch;
-      overflow-scrolling: touch;
-      padding-top: 36px;
       .loading {
         width: 100%;
         height: 40px;
@@ -152,6 +178,20 @@
         background-color: #20a0ff;
         color: #ffffff;
         text-align: center;
+      }
+      .back-to-top {
+        position: fixed;
+        right: 10px;
+        bottom: 20px;
+        color: #ffffff;
+        text-align: center;
+        font-size: 12px;
+        background-color: rgba(7, 17, 27, .5);
+        padding: 5px;
+        border-radius: 10px;
+        .iconfont {
+          font-size: 36px;
+        }
       }
     }
   }

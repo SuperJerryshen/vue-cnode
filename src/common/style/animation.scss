@@ -1,0 +1,7 @@
+// zoom-in
+.fadeIn-enter-active, .fadeIn-leave-active {
+  transition: opacity .5s ease;
+}
+.fadeIn-enter, .fadeIn-leave-to /* .fade-leave-active 在 <2.1.8 中 */ {
+  opacity: 0;
+}

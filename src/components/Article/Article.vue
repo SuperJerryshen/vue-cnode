@@ -1,6 +1,6 @@
 <template>
   <div class="article-wrap">
-    <div class="article">
+    <div class="article" v-show="!isLoading" v-if="articleData">
       <div class="article-bar" v-if="this.devicePixelRatio > 1">
         <span class="iconfont icon-houtui" @click="backToHome"></span><h1 class="bar-article">{{ articleData.title }}</h1>
       </div>
@@ -8,18 +8,18 @@
         <div class="header">
           <h1 class="title">{{ articleData.title }}</h1>
           <span class="top" v-if="articleData.top">置顶</span>
-          <span class="good" v-if="articleData.good">精华</span> · <span class="publish-time" v-if="articleData.create_at">发布于{{ articleData.create_at.slice(0, 10) }}</span> · <span class="author" v-if="articleData.loginname">作者 {{ articleData.author.loginname }}</span> · <span class="visit-count">{{ articleData.reply_count }}次浏览</span> · <span class="last-reply" v-if="articleData.last_reply_at">{{ articleData.last_reply_at.slice(0, 10) }}</span> · <span class="tab" v-if="articleData.tab">{{ articleData.tab }}</span>
+          <span class="good" v-if="articleData.good">精华</span> · <span class="publish-time" v-if="articleData.create_at">发布于{{ articleData.create_at | timeFormat }}</span> · <span class="author" v-if="articleData.author.loginname">作者 {{ articleData.author.loginname }}</span> · <span class="visit-count">{{ articleData.reply_count }}次浏览</span> · <span class="last-reply" v-if="articleData">最后回复于{{ articleData.last_reply_at | timeFormat }}</span> · <span class="tab">{{ tabTypes[articleData.tab] }}</span>
         </div>
         <div class="content" v-html="articleData.content"></div>
         <div class="reply">
-          <h1 class="title">{{ articleData.replies.length }} 回复</h1>
+          <h1 class="title">{{ articleData && articleData.replies.length }} 回复</h1>
           <ul class="comments">
             <li class="comment" v-for="(item,idx) in articleData.replies">
               <div class="reply-author">
                 <img class="avatar" :src="item.author.avatar_url" alt="author" />
                 <span class="loginname">{{ item.author.loginname }}</span>
                 <span class="floor">{{ idx + 1 }}楼</span> ·
-                <span class="time">{{ item.create_at && item.create_at.slice(0, 10) }}</span>
+                <span class="time">{{ item.create_at | timeFormat }}</span>
               </div>
               <div class="ups">
                 <i class="iconfont icon-praise"></i><span>{{ item.ups.length }}</span>
@@ -30,13 +30,27 @@
         </div>
       </div>
     </div>
+    <loading v-show="isLoading"></loading>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
   import { mapGetters } from 'vuex'
+  import Loading from '../Loading/Loading'
+  import timeFormat from '../../common/utils/timeFormat'
 
   export default {
+    data () {
+      return {
+        isLoading: true,
+        tabTypes: {
+          'share': '分享',
+          'ask': '问答',
+          'job': '招聘',
+          'dev': '客户端测试'
+        }
+      }
+    },
     computed: {
       ...mapGetters([
         'articleData'
@@ -45,21 +59,41 @@
         return window.devicePixelRatio
       }
     },
+    filters: {
+      'timeFormat': timeFormat
+    },
     methods: {
       backToHome () {
         this.$router.back()
       }
     },
-    created () {
-      this.axios.get(`https://cnodejs.org/api/v1/topic/${this.$route.params.id}`)
-        .then(res => {
-          this.$store.dispatch('initArticleData', res.data.data)
-        })
+    beforeRouteEnter (to, from, next) {
+      next(vm => {
+        console.log(vm.isLoading)
+        vm.axios.get(`https://cnodejs.org/api/v1/topic/${vm.$route.params.id}`)
+          .then(res => {
+            vm.isLoading = false
+            vm.$store.dispatch('initArticleData', res.data.data)
+          })
+      })
+    },
+    beforeRouteLeave (to, from, next) {
+      this.isLoading = true
+      next()
+    },
+    components: {
+      Loading
     }
   }
 </script>
 
 <style lang="scss" rel="stylesheet/scss">
+  .slide-enter-active, .slide-leave-active {
+    transition: transform .5s ease;
+  }
+  .slide-enter, .slide-leave-to {
+    transform: translateX(100%);
+  }
   .article-wrap {
     flex: 1;
     position: absolute;
@@ -125,10 +159,12 @@
           background: #ffffff;
           font-size: 10px;
           border-bottom: 1px solid #D3DCE6;
+          line-height: 20px;
           .title {
             color: #1F2D3D;
             font-size: 20px;
             padding: 5px 0;
+            word-wrap: break-word;
           }
           .top {
             background-color: #20A0FF;

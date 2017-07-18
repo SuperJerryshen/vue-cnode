@@ -3,14 +3,16 @@
  */
 import Vue from 'vue'
 import Vuex from 'vuex'
-import content from './modules/content'
-import article from './modules/article'
+import content from './modules/content/content'
+import article from './modules/article/article'
+import navbar from './modules/navbar/navbar'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   modules: {
     content,
-    article
+    article,
+    navbar
   }
 })

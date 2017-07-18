@@ -7,18 +7,26 @@ const state = {
   /*
   * articleLists: 展示的文章列表的数据
   * selectedTab: 选中显示的内容，默认为全部
+  * pageCount: 表示当前已经载入内容的页数
+  * isLoading: 表示是否正在获取数据，防止多次请求数据
+  * scrollTop: 记录content容器的scrollTop值
+  * 表示回到顶部按钮是否显示
   * */
   articleLists: [],
   selectedTab: 'all',
   pageCount: 1,
-  isLoading: false
+  isLoading: false,
+  scrollTop: 0,
+  isTopShow: false
 }
 
 const getters = {
   articleLists: state => state.articleLists,
   selectedTab: state => state.selectedTab,
   pageCount: state => state.pageCount,
-  isLoading: state => state.isLoading
+  isLoading: state => state.isLoading,
+  scrollTop: state => state.scrollTop,
+  isTopShow: state => state.isTopShow
 }
 
 const mutations = {
@@ -36,8 +44,14 @@ const mutations = {
     state.pageCount++
     state.isLoading = false
   },
-  [types.CHANGE_LOAD_STATUS] (status) {
+  [types.CHANGE_LOAD_STATUS] (state, status) {
     state.isLoading = true
+  },
+  [types.RECORD_SCROLL_TOP] (state, location) {
+    state.scrollTop = location
+  },
+  [types.BACK_TO_TOP] (state, boolean) {
+    state.isTopShow = boolean
   }
 }
 
@@ -53,6 +67,12 @@ const actions = {
   },
   changeLoadingStatus ({ commit }) {
     commit(types.CHANGE_LOAD_STATUS)
+  },
+  recordScrollTop ({ commit }, location) {
+    commit(types.RECORD_SCROLL_TOP, location)
+  },
+  backToTop ({ commit }, boolean) {
+    commit(types.BACK_TO_TOP, boolean)
   }
 }
 

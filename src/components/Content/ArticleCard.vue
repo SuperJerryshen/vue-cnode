@@ -3,7 +3,7 @@
     <span class="top" v-if="articleOverview.top">置顶</span><span v-if="articleOverview.top"> ·</span>
     <span class="good" v-if="articleOverview.good">精华</span><span v-if="articleOverview.good"> ·</span>
     <span class="tab">{{ this.tabTypes[articleOverview.tab] }}</span> ·
-    <span class="last-reply-time">{{ articleOverview.last_reply_at.slice(0, 10)}}</span>
+    <span class="last-reply-time">{{ articleOverview.last_reply_at | timeFormat}}</span>
     <h1 class="title"><router-link :to="{ name: 'article', params: {id: articleOverview.id}}">{{ articleOverview.title }}</router-link></h1>
     <div class="author">
       <img class="avatar" :src="articleOverview.author.avatar_url" alt="articleOverview.author.loginname">
@@ -19,6 +19,7 @@
 </template>
 
 <script type="text/ecmascript-6">
+  import timeFormat from '../../common/utils/timeFormat'
   export default {
     data () {
       return {
@@ -30,6 +31,9 @@
           'dev': '客户端测试'
         }
       }
+    },
+    filters: {
+      'timeFormat': timeFormat
     },
     props: {
       articleOverview: {

@@ -64,22 +64,25 @@ a:hover {
   }
   li, p {
     text-indent: 1em;
-    margin-bottom: 6px;
+    line-height: 28px;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    line-height: 48px;
   }
   h1 {
-    font-size: 100%;
+    font-size: 150%;
   }
   h2 {
-    font-size: 98%;
+    font-size: 140%;
   }
   h3 {
-    font-size: 96%;
+    font-size: 130%;
   }
   h4 {
-    font-size: 94%;
+    font-size: 120%;
   }
   h5 {
-    font-size: 92%;
+    font-size: 110%;
   }
   table {
     width: 100%;
@@ -95,20 +98,25 @@ a:hover {
     tr:nth-of-type(odd) {
       background-color: #E0E0E0;
       border: none;
-
     }
     tr:nth-of-type(even) {
       background-color: #EFEBE9;
       border: none;
     }
     td {
-      max-width: 120px;
-      padding: 0 4px;
+      max-width: 110px;
+      padding: 10px 4px;
       font-size: 80%;
       overflow: auto;
+      text-align: center;
     }
   }
-  code {overflow: auto;background: #f4f4f4;padding: 5px 10px;border: 1px solid #eee;}
+  code {
+    overflow: auto;
+    background: #f4f4f4;
+    padding: 0 5px;
+    border: 1px solid #eee;
+  }
   pre {
     background: #f4f4f4;
     overflow: auto;
@@ -119,7 +127,14 @@ a:hover {
   blockquote {
     border-left: 8px solid #D3DCE6;
     color: #475669;
-    padding-left: 20px;
+    padding: 10px 10px 10px 20px;
+    background: #EFF2F7;
+    margin: 15px 0;
+    p {
+      font-size: 16px;
+      line-height: 24px;
+      margin-bottom: 0;
+    }
   }
 }
 

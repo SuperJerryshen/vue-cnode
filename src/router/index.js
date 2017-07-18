@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Article from '../components/Article/Article'
-import Home from '../components/Home'
+import Content from '../components/Content/Content'
 
 Vue.use(Router)
 
@@ -10,7 +10,7 @@ export default new Router({
     {
       path: '/',
       name: 'home',
-      component: Home
+      component: Content
     },
     {
       path: '/article/:id',
