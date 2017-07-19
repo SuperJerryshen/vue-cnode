@@ -245,6 +245,10 @@ export function deleteCookie (name) {
  }
  ```
 
+ 10.BUG：当进入其他路由时，仍然会触发主页的scroll事件。
+
+ 解决办法：之前生命周期钩子用的是`mounted`，因此进入其他路由时，scroll事件仍然存在。所以现在改用`beforeRouteEnter`和`beforeRouteLeave`这两个路由的生命周期钩子，分别实现载入路由时的scroll事件挂载、离开路由时的scroll事件卸载。从而防止主页内容的懒加载一直触发。
+
 ## 安装
 
 ``` bash

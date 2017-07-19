@@ -35,6 +35,7 @@ const mutations = {
     state.articleLists = tabData
   },
   [types.LOAD_MORE_DATA] (state, data) {
+    console.log('加载数据了')
     data.forEach(item => {
       state.articleLists.push(item)
     })
