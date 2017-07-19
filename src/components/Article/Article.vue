@@ -19,18 +19,27 @@
           <ul class="comments">
             <li class="comment" v-for="(item,idx) in articleData.replies">
               <div class="reply-author">
-                <img @click="toAuthorDetail(item.author.loginname)" class="avatar" :src="item.author.avatar_url" alt="author"/>
+                <img @click="toAuthorDetail(item.author.loginname)" class="avatar" :src="item.author.avatar_url"
+                     alt="author"/>
                 <span class="loginname">{{ item.author.loginname }}</span>
                 <span class="floor">{{ idx + 1 }}楼</span> ·
                 <span class="time">{{ item.create_at | timeFormat }}</span>
               </div>
               <div class="ups">
-                <i class="iconfont icon-praise"></i><span>{{ item.ups.length }}</span>
+                <i class="iconfont icon-praise" @click="upReply(item.id)" :class="{'uped': item.is_uped}"></i><span>{{ item.ups.length }}</span>
+                <i class="iconfont icon-reply" @click="replyAt({name: item.author.loginname, id: item.reply_id, num: idx + 1})"></i>
               </div>
               <div class="text" v-html="item.content"></div>
             </li>
           </ul>
         </div>
+        <bottom-bar
+          :topicId="articleData.id"
+          :isCollect="articleData.is_collect"
+          :isLogin="isLogin"
+          :isSelf="isSelf"
+          :accesstoken="this.userData.accesstoken"
+        ></bottom-bar>
       </div>
     </div>
     <loading v-if="isLoading"></loading>
@@ -41,6 +50,7 @@
   import { mapGetters } from 'vuex'
   import Loading from '../Loading/Loading'
   import BackBar from '../BackBar/BackBar'
+  import BottomBar from '../BottomBar/BottomBar'
   import timeFormat from '../../common/utils/timeFormat'
 
   export default {
@@ -58,12 +68,33 @@
     methods: {
       toAuthorDetail (name) {
         this.$router.push(`/user/${name}`)
+      },
+      replyAt (username) {
+        this.$store.dispatch('reply_at', username)
+      },
+      upReply (id) {
+        this.axios.post(`https://cnodejs.org/api/v1/reply/${id}/ups`, {
+          accesstoken: this.userData.accesstoken
+        }).then(res => {
+          if (res.data.success) {
+            this.$store.dispatch('sync_reply_up', {
+              id,
+              action: res.data.action,
+              uper: this.userData.id
+            })
+          }
+        })
       }
     },
     computed: {
       ...mapGetters([
-        'articleData'
-      ])
+        'articleData',
+        'isLogin',
+        'userData'
+      ]),
+      isSelf () {
+        return this.articleData.author.loginname === this.userData.loginname
+      }
     },
     filters: {
       'timeFormat': timeFormat
@@ -75,7 +106,7 @@
       // 在载入路由之前
       // 异步获取数据，并且显示加载界面
       next(vm => {
-        vm.axios.get(`https://cnodejs.org/api/v1/topic/${vm.$route.params.id}`)
+        vm.axios.get(`https://cnodejs.org/api/v1/topic/${vm.$route.params.id}?accesstoken=${vm.userData.accesstoken}`)
           .then(res => {
             vm.isLoading = false
             vm.$store.dispatch('initArticleData', res.data.data)
@@ -85,11 +116,13 @@
     beforeRouteLeave (to, from, next) {
       // 离开路由之前，将加载的状态还原为true
       this.isLoading = true
+      this.$store.dispatch('cancel_reply_at')
       next()
     },
     components: {
       Loading,
-      BackBar
+      BackBar,
+      BottomBar
     }
   }
 </script>
@@ -120,10 +153,12 @@
       height: 100%;
       .article-content {
         width: 100%;
+        min-height: 100%;
         overflow: scroll;
         -webkit-overflow-scrolling: touch;
         overflow-scrolling: touch;
         padding-top: 48px;
+        padding-bottom: 56px;
         .header {
           padding: 10px 15px 15px 15px;
           margin-bottom: 15px;
@@ -186,11 +221,18 @@
               .ups {
                 position: absolute;
                 top: 12px;
-                right: 20px;
+                right: 0;
                 color: #4f6275;
                 .icon-praise {
-                  font-size: 18px;
-                  padding-right: 2px;
+                  font-size: 20px;
+                  padding: 10px 2px 10px 10px;
+                  &.uped {
+                    color: #20a0ff;
+                  }
+                }
+                .icon-reply {
+                  font-size: 20px;
+                  padding: 10px 10px 10px 0;
                 }
               }
               .text {

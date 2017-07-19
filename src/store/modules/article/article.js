@@ -22,22 +22,89 @@ const state = {
     },
     replies: [],
     is_collect: false
-  }
+  },
+  replyData: '',
+  replyAtId: '',
+  addReplyAt: 0
 }
 
 const getters = {
-  articleData: state => state.articleData
+  articleData: state => state.articleData,
+  replyData: state => state.replyData,
+  replyAtId: state => state.replyAtId,
+  addReplyAt: state => state.addReplyAt
 }
 
 const mutations = {
   [types.INIT_ARTICLE_DATA] (state, data) {
     state.articleData = data
+  },
+  [types.COLLECT] (state) {
+    state.articleData.is_collect = true
+  },
+  [types.DE_COLLECT] (state) {
+    state.articleData.is_collect = false
+  },
+  [types.REPLY_AT] (state, replyUser) {
+    state.replyData = `@${replyUser.name} `
+    state.replyAtId = replyUser.id
+    state.addReplyAt = replyUser.num
+  },
+  [types.CANCEL_REPLY_AT] (state) {
+    state.replyAtId = ''
+    state.replyData = ''
+    state.addReplyAt = 0
+  },
+  [types.ADD_REPLY] (state, reply) {
+    state.articleData.replies.splice(reply.idx, 0, reply.data)
+  },
+  [types.SYNC_REPLY_DATA] (state, data) {
+    state.replyData = data
+  },
+  [types.SYNC_REPLY_UP] (state, data) {
+    state.articleData.replies.forEach(item => {
+      if (item.id === data.id) {
+        if (data.action === 'up') {
+          item.is_uped = true
+          item.ups.push(data.uper)
+        } else if (data.action === 'down') {
+          item.is_uped = false
+          item.ups.forEach((up, idx, arr) => {
+            if (up === data.uper) {
+              arr.splice(idx, 1)
+            }
+          })
+        }
+      }
+      return true
+    })
   }
 }
 
 const actions = {
   initArticleData ({commit}, data) {
     commit(types.INIT_ARTICLE_DATA, data)
+  },
+  collect ({commit}) {
+    commit(types.COLLECT)
+  },
+  deCollect ({commit}) {
+    commit(types.DE_COLLECT)
+  },
+  reply_at ({commit}, username) {
+    commit(types.REPLY_AT, username)
+  },
+  cancel_reply_at ({commit}) {
+    commit(types.CANCEL_REPLY_AT)
+  },
+  add_reply ({commit}, reply) {
+    commit(types.ADD_REPLY, reply)
+  },
+  sync_reply_data ({commit}, data) {
+    commit(types.SYNC_REPLY_DATA, data)
+  },
+  sync_reply_up ({commit}, data) {
+    commit(types.SYNC_REPLY_UP, data)
   }
 }
 

@@ -3,26 +3,29 @@
     <div class="nav-bar-wrap">
       <a href="/"><img src="./cnodejs_light.svg" alt="CNode" class="logo" width="120" height="28"></a>
       <div class="info" @click="changeAboutMeShow"><i class="iconfont icon-about"></i></div>
-      <div class="notification"><i class="iconfont icon-notification"></i></div>
+      <div class="notification" @click="toNotification">
+        <i class="iconfont icon-notification"></i>
+        <div v-if="isLogin && messageCount" class="count">{{ messageCount }}</div>
+      </div>
       <div class="user" @click="showUserDetail">
         <i class="iconfont icon-user" v-show="!isLogin"></i>
         <img class="user-avatar" :src="userData.avatar_url" alt="user-avatar" v-show="isLogin">
       </div>
       <transition name="pulldown">
         <ul class="user-menu" v-show="isUserMenuShow">
-          <li><i class="iconfont icon-home"></i><span @click="toUserDetail">我的主页</span></li>
+          <li><i class="iconfont icon-home"></i><span @click="toRouter(`/user/${userData.loginname}`)">我的主页</span></li>
+          <li><i class="iconfont icon-edit"></i><span @click="toRouter(`/publish`)">发布文章</span></li>
+          <li><i class="iconfont icon-collected"></i><span @click="toRouter(`/collect/${userData.loginname}`)">我的收藏</span></li>
           <li><i class="iconfont icon-exit"></i><span @click="loginOut">退出登录</span></li>
         </ul>
       </transition>
     </div>
     <about-me v-show="isAboutMeShow"></about-me>
-    <login v-if="!isLogin" v-show="isLoginShow"></login>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
   import AboutMe from '../AboutMe/AboutMe'
-  import Login from '../Login/Login'
   import { mapGetters } from 'vuex'
 
   export default {
@@ -31,12 +34,21 @@
         isUserMenuShow: false
       }
     },
+    mounted () {
+      if (this.isLogin) {
+        this.axios.get(`https://cnodejs.org/api/v1/message/count?accesstoken=${this.userData.accesstoken}`)
+          .then(res => {
+            this.$store.dispatch('get_message_count', res.data.data)
+          })
+      }
+    },
     computed: {
       ...mapGetters([
         'isAboutMeShow',
         'isLogin',
         'isLoginShow',
-        'userData'
+        'userData',
+        'messageCount'
       ])
     },
     methods: {
@@ -48,14 +60,19 @@
         // ① 登  录：展示个人主页和退出的菜单
         // ② 未登录：显示登录窗口
         if (!this.isLogin) {
-          this.$store.dispatch('changeLoginShow')
+          this.$router.push({name: 'login'})
         } else {
           this.isUserMenuShow = !this.isUserMenuShow
         }
       },
-      toUserDetail () {
+      toRouter (route) {
         this.isUserMenuShow = !this.isUserMenuShow
-        this.$router.push({name: 'user', params: {loginname: this.userData.loginname}})
+        this.$router.push(route)
+      },
+      toNotification () {
+        if (this.isLogin) {
+          this.$router.push('/notification')
+        }
       },
       loginOut () {
         this.$store.dispatch('loginOut')
@@ -63,8 +80,7 @@
       }
     },
     components: {
-      AboutMe,
-      Login
+      AboutMe
     }
   }
 </script>
@@ -117,6 +133,20 @@
         }
         &.notification {
           right: 50px;
+          .count {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            width: 16px;
+            height: 16px;
+            background-color: #FF4949;
+            color: #ffffff;
+            border-radius: 50%;
+            text-align: center;
+            font-size: 10px;
+            line-height: 16px;
+            z-index: 1000;
+          }
         }
         &.user {
           right: 0;
@@ -127,7 +157,6 @@
         top: 51px;
         right: 0;
         width: 100%;
-        height: 96px;
         list-style: none;
         background-color: rgba(7, 17, 27, .8);
         -webkit-backdrop-filter: blur(8px);

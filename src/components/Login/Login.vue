@@ -1,8 +1,9 @@
 <template>
   <transition name="fadeIn">
     <div class="login-wrap">
+      <back-bar :title="'用户登录'"></back-bar>
       <div class="login">
-        <h2 class="title">用户登录</h2>
+        <img class="logo" src="../navBar/cnodejs_light.svg" alt="logo">
         <p class="info">请到CNode中文官网，将设置选项中的Access Token的字符串拷贝至输入框中，并点击登录，完成用户验证。（30天内免登陆）</p>
         <div class="password">
           <i class="iconfont icon-token"></i>
@@ -10,12 +11,13 @@
           <button class="login-button" @click="verifyUser">登录</button>
         </div>
       </div>
-      <div class="shade" @click="hideLogin"></div>
     </div>
   </transition>
 </template>
 
 <script type="text/ecmascript-6">
+  import BackBar from '../BackBar/BackBar'
+
   export default {
     methods: {
       verifyUser () {
@@ -25,17 +27,18 @@
             accesstoken: token
           }).then(res => {
             if (res.data.success) {
+              res.data.accesstoken = token
               this.$store.dispatch('initUserData', res.data)
-              this.$store.dispatch('changeLoginShow')
+              this.$router.back()
             }
           }).catch(() => {
             console.log('token验证失败！')
           })
         }
-      },
-      hideLogin () {
-        this.$store.dispatch('changeLoginShow')
       }
+    },
+    components: {
+      BackBar
     }
   }
 </script>
@@ -50,24 +53,17 @@
     z-index: 1000;
     /*用户登录页面样式*/
     .login {
-      position: absolute;
-      top: 20%;
-      left: 10%;
-      width: 80%;
-      height: 60%;
-      max-height: 350px;
-      border-radius: 20px;
+      width: 100%;
+      height: 100%;
+      padding-top: 50px;
       background-color: rgba(7, 17, 27, .8);
-      padding: 5%;
       text-align: center;
       font-size: 14px;
       color: #E5E9F2;
       z-index: 100;
-      h2 {
-        padding-bottom: 10px;
-        margin-bottom: 10px;
-        border-bottom: 1px solid #E5E9F2;
-        font-size: 24px;
+      .logo {
+        width: 60%;
+        margin-top: 20px;
       }
       .info {
         line-height: 20px;

@@ -8,6 +8,7 @@ import article from './modules/article/article'
 import navbar from './modules/navbar/navbar'
 import login from './modules/login/login'
 import user from './modules/user/user'
+import notification from './modules/notification/notification'
 
 Vue.use(Vuex)
 
@@ -17,6 +18,7 @@ export default new Vuex.Store({
     article,
     navbar,
     login,
-    user
+    user,
+    notification
   }
 })

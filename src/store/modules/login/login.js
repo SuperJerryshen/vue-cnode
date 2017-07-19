@@ -11,9 +11,10 @@ const state = {
   userData: {
     avatar_url: '',
     id: '',
-    loginname: ''
+    loginname: '',
+    accesstoken: ''
   },
-  isLoginShow: false
+  myCollections: []
 }
 
 if (allCookie.isLogin === 'true') {
@@ -21,14 +22,15 @@ if (allCookie.isLogin === 'true') {
   state.userData = {
     avatar_url: allCookie.avatar_url,
     id: allCookie.id,
-    loginname: allCookie.loginname
+    loginname: allCookie.loginname,
+    accesstoken: allCookie.accesstoken
   }
 }
 
 const getters = {
   isLogin: state => state.isLogin,
   userData: state => state.userData,
-  isLoginShow: state => state.isLoginShow
+  myCollections: state => state.myCollections
 }
 
 const mutations = {
@@ -42,20 +44,21 @@ const mutations = {
       cookie.setCookie(i, data[i])
     })
   },
-  [types.CHANGE_LOGIN_SHOW] (state) {
-    state.isLoginShow = !state.isLoginShow
-  },
   [types.LOGIN_OUT] (state) {
     state.isLogin = false
     state.userData = {
       avatar_url: '',
       id: '',
-      loginname: ''
+      loginname: '',
+      accesstoken: ''
     }
     cookie.setCookie('isLogin', false)
     Object.keys(state.userData).forEach(i => {
       cookie.deleteCookie(i)
     })
+  },
+  [types.INIT_MY_COLLECTIONS] (state, data) {
+    state.myCollections = data
   }
 }
 
@@ -63,11 +66,11 @@ const actions = {
   initUserData ({ commit }, data) {
     commit(types.INIT_USER_DATA, data)
   },
-  changeLoginShow ({ commit }) {
-    commit(types.CHANGE_LOGIN_SHOW)
-  },
   loginOut ({ commit }) {
     commit(types.LOGIN_OUT)
+  },
+  init_my_collections ({ commit }, data) {
+    commit(types.INIT_MY_COLLECTIONS, data)
   }
 }
 

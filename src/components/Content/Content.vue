@@ -28,7 +28,7 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import ArticleCard from './ArticleCard'
+  import ArticleCard from '../ArticleCard/ArticleCard'
   import { mapGetters } from 'vuex'
   import NavBar from '../navBar/navBar'
 
@@ -52,9 +52,9 @@
           .then(res => {
             this.$store.dispatch('changeTab', tabType)
             this.$store.dispatch('changeTabData', res.data.data)
+            // 使页面回到顶部
+            window.scrollTo(0, 0)
           })
-        // 使页面回到顶部
-        this.$refs.content.scrollTop = 0
       },
       loadMoreData (tabType, pageCount) {
         // 功能：实现滑到页面最底端时，动态加载后面的数据。
@@ -76,12 +76,10 @@
         }, 5)
       },
       scrollFunc () {
-        console.log('scrolled')
         if (!this.isLoading && document.documentElement.offsetHeight - window.scrollY <= window.screen.height) {
           // 对于手机端，仅仅通过高度差判断，且条件成立时，屏幕有可能还在滑动，就会触发更多次请求
           // 为了解决这个问题，在vuex加入了一个isLoading的变量，表示现在正在请求加载数据
           // 从而使得加载不会过量
-          console.log('满足')
           this.$store.dispatch('changeLoadingStatus')
           this.loadMoreData(this.selectedTab, this.pageCount)
         }
