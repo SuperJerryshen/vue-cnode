@@ -17,7 +17,7 @@
           <article-card :article="item"></article-card>
         </li>
       </ul>
-      <div class="loading" v-show="isLoading">拼命加载中</div>
+      <div class="loading" v-if="isLoading"><img class="loading-pic" src="../Loading/loading.svg" alt="loading">拼命加载中</div>
       <div class="back-to-top" v-show="isTopShow" @click="backToTop">
         <i class="iconfont icon-back-to-top"></i>
         <p class="text">回到顶部</p>
@@ -64,7 +64,15 @@
           })
       },
       backToTop () {
-        window.scrollTo(0, 0)
+        // 将返回顶部设置成250ms内完成的动画。
+        let scrollPiece = window.scrollY / 50
+        let topInterval = window.setInterval(() => {
+          if (window.scrollY <= 0) {
+            window.clearInterval(topInterval)
+          } else {
+            window.scrollTo(0, window.scrollY - scrollPiece)
+          }
+        }, 5)
       }
     },
     created () {
@@ -80,10 +88,10 @@
       // 当内容挂在到页面上以后，
       // 通过scroll事件，监听页面的变化，
       // 当document.documentElement.offsetHeight - window.scrollY
-      // <= document.documentElement.clientHeight时，
+      // <= window.screen.height时，
       // （即页面总高度 - 页面顶部滑动的高度 <= 窗口高度）开始异步加载数据
       window.addEventListener('scroll', () => {
-        if (!this.isLoading && document.documentElement.offsetHeight - window.scrollY <= document.documentElement.clientHeight) {
+        if (!this.isLoading && document.documentElement.offsetHeight - window.scrollY <= window.screen.height) {
           // 对于手机端，仅仅通过高度差判断，且条件成立时，屏幕有可能还在滑动，就会触发更多次请求
           // 为了解决这个问题，在vuex加入了一个isLoading的变量，表示现在正在请求加载数据
           // 从而使得加载不会过量
@@ -160,6 +168,9 @@
     .content {
       width: 100%;
       .loading {
+        position: fixed;
+        bottom: 0;
+        left: 0;
         width: 100%;
         height: 40px;
         line-height: 40px;
@@ -167,6 +178,13 @@
         background-color: #20a0ff;
         color: #ffffff;
         text-align: center;
+        .loading-pic {
+          display: inline-block;
+          width: 28px;
+          height: 28px;
+          vertical-align: middle;
+          animation: loading .5s linear infinite;
+        }
       }
       .back-to-top {
         position: fixed;

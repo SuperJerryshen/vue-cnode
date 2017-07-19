@@ -63,10 +63,7 @@
     computed: {
       ...mapGetters([
         'articleData'
-      ]),
-      devicePixelRatio () {
-        return window.devicePixelRatio
-      }
+      ])
     },
     filters: {
       'timeFormat': timeFormat
@@ -75,6 +72,8 @@
       this.isLoading = true
     },
     beforeRouteEnter (to, from, next) {
+      // 在载入路由之前
+      // 异步获取数据，并且显示加载界面
       next(vm => {
         vm.axios.get(`https://cnodejs.org/api/v1/topic/${vm.$route.params.id}`)
           .then(res => {
@@ -84,6 +83,7 @@
       })
     },
     beforeRouteLeave (to, from, next) {
+      // 离开路由之前，将加载的状态还原为true
       this.isLoading = true
       next()
     },

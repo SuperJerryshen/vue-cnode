@@ -1,7 +1,10 @@
 /**
  * Created by jerryshen on 2017/7/15.
  * 用户本地cookie的存取以及清空
+ * 函数的功能分别是：
+ * 设置单个，获取所有，获取单个，删除所有，删除单个
  */
+
 export function setCookie (name, value, exdays = 30) {
   var time = new Date()
   time.setTime(time.getTime() + exdays * 24 * 3600 * 1000)

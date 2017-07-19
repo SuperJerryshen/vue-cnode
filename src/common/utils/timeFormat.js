@@ -7,7 +7,7 @@ export default function timeFormat (date) {
   const inDate = new Date(date)
   if (nowTime.getYear() - inDate.getYear() > 0) {
     // 年份差值 > 0，返回年
-    return `${nowTime.getYear() - inDate.getYear()}年前`
+    return `${nowTime.getFullYear() - inDate.getFullYear()}年前`
   } else if (nowTime.getMonth() - inDate.getMonth() > 0) {
     // 月份差值 > 0，返回月
     return `${nowTime.getMonth() - inDate.getMonth()}个月前`
