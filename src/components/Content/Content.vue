@@ -39,7 +39,7 @@
         'articleLists',
         'pageCount',
         'isLoading',
-        'scrollTop',
+        'homeScrollTop',
         'isTopShow'
       ])
     },
@@ -76,6 +76,7 @@
         }, 5)
       },
       scrollFunc () {
+        this.$store.dispatch('record_scroll_top', window.scrollY)
         if (!this.isLoading && document.documentElement.offsetHeight - window.scrollY <= window.screen.height) {
           // 对于手机端，仅仅通过高度差判断，且条件成立时，屏幕有可能还在滑动，就会触发更多次请求
           // 为了解决这个问题，在vuex加入了一个isLoading的变量，表示现在正在请求加载数据
@@ -110,6 +111,7 @@
       // <= window.screen.height时，
       // （即页面总高度 - 页面顶部滑动的高度 <= 窗口高度）开始异步加载数据
       next(vm => {
+        window.scrollTo(0, vm.homeScrollTop)
         window.addEventListener('scroll', vm.scrollFunc)
       })
     },

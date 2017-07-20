@@ -17,3 +17,5 @@ export const ADD_REPLY = 'ADD_REPLY'
 export const SYNC_REPLY_DATA = 'SYNC_REPLY_DATA'
 // 点赞，同步vuex中评论赞的boolean值
 export const SYNC_REPLY_UP = 'SYNC_REPLY_UP'
+// 当输入框失去焦点时，改变isFocus的状态到false
+export const FOCUS_IS_FALSE = 'FOCUS_IS_FALSE'

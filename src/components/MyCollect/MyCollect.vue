@@ -33,6 +33,7 @@
       ])
     },
     beforeRouteEnter (to, from, next) {
+      window.scrollTo(0, 0)
       next(vm => {
         vm.axios.get(`https://cnodejs.org/api/v1/topic_collect/${vm.$route.params.loginname}`)
           .then(res => {

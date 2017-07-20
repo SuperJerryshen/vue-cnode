@@ -1,7 +1,7 @@
 # CNode-Vue
 
 ## 前言
-> 感谢[CNode社区](https://cnodejs.org/)提供的API，项目的来源就是因为在CNode官网看到了API接口，所以才萌生了做一个Vue项目的想法。
+> 感谢[CNode社区](https://cnodejs.org/)提供的API，项目的来源就是因为在CNode官网看到了API接口，所以才萌生了做一个Vue项目的想法。现在项目的基本功能都已经做完，但仍需要后续的完善。
 
 ## 项目地址
 
@@ -25,7 +25,7 @@ Sass: CSS预编译器
 
 ## 版本
 
-v0.2
+v0.3 beta
 
 ## 功能需求分析
 > 根据需求，我做了一张分析图，如下。
@@ -33,10 +33,9 @@ v0.2
 ![CNode需求分析图](/src/pic/CNode功能需求分析.png)
 
 ## 项目结构
-```$xslt
+```
 .
-├── README.md
-├── build
+├── build                               // webpack设置
 │   ├── build.js
 │   ├── check-versions.js
 │   ├── dev-client.js
@@ -46,49 +45,100 @@ v0.2
 │   ├── webpack.base.conf.js
 │   ├── webpack.dev.conf.js
 │   └── webpack.prod.conf.js
-├── config
+├── config                              // 项目开发和打包设置
 │   ├── dev.env.js
 │   ├── index.js
 │   └── prod.env.js
-├── index.html
-├── package.json
-├── src
-│   ├── App.vue
-│   ├── common
-│   │   ├── fonts
+├── docs                                // 静态资源地址
+│   ├── index.html
+│   └── static
+│       ├── css
+│       │   └── app.d99bca81a0eef77c7e0d8c70f520707c.css
+│       ├── fonts
+│       │   ├── iconfont.8553d3c.ttf
+│       │   └── iconfont.b29ac85.eot
+│       ├── img
+│       │   └── iconfont.d4553f2.svg
+│       └── js
+│           ├── app.cb09e437ae0bec6205b9.js
+│           ├── manifest.aa9548ef140031379c30.js
+│           └── vendor.f3d0844a66c0c2cabe0b.js
+├── src                                 // 项目文件位置
+│   ├── App.vue                         // 组件总入口
+│   ├── common                          // 通用文件
+│   │   ├── fonts                       // 字体
 │   │   │   ├── iconfont.eot
 │   │   │   ├── iconfont.svg
 │   │   │   ├── iconfont.ttf
 │   │   │   └── iconfont.woff
-│   │   └── style
-│   │       ├── base.scss
-│   │       └── icon.scss
-│   ├── components
-│   │   ├── Article
+│   │   ├── style                       // 样式
+│   │   │   ├── animation.scss          // 动画
+│   │   │   ├── base.scss               // 基本样式
+│   │   │   └── icon.scss               // iconfont的字体图标样式
+│   │   └── utils                       // 工具函数
+│   │       ├── cookie.js               // cookie存取和删除
+│   │       └── timeFormat.js           // 格式化时间函数
+│   ├── components                      // 所有组件
+│   │   ├── AboutMe                     // 关于
+│   │   │   └── AboutMe.vue
+│   │   ├── Article                     // 文章详情页
 │   │   │   └── Article.vue
-│   │   ├── Content
-│   │   │   ├── ArticleCard.vue
+│   │   ├── ArticleCard                 // 文章列表的单个文章卡片
+│   │   │   └── ArticleCard.vue
+│   │   ├── BackBar                     // 顶部的返回栏（返回主页和后退）
+│   │   │   └── BackBar.vue
+│   │   ├── BottomBar                   // 底部的回复栏（还包含收藏和编辑文件）
+│   │   │   └── BottomBar.vue
+│   │   ├── Content                     // 主页
 │   │   │   └── Content.vue
-│   │   ├── Home.vue
-│   │   ├── Loading
-│   │   │   └── Loading.vue
-│   │   └── navBar
+│   │   ├── Loading                     // 正在加载组件
+│   │   │   ├── Loading.vue
+│   │   │   └── loading.svg
+│   │   ├── Login                       // 登录
+│   │   │   └── Login.vue
+│   │   ├── MessageCard                 // 单个通知的详情卡片
+│   │   │   └── MessageCard.vue
+│   │   ├── MyCollect                   // 我的收藏页
+│   │   │   └── MyCollect.vue
+│   │   ├── Notification                // 通知页
+│   │   │   └── Notification.vue
+│   │   ├── Publish                     // 发布文章和发布更新页
+│   │   │   └── Publish.vue
+│   │   ├── UserDetail                  // 用户详情页
+│   │   │   └── UserDetail.vue
+│   │   └── navBar                      // 主页的顶部导航栏
 │   │       ├── cnodejs_light.svg
 │   │       └── navBar.vue
-│   ├── main.js
-│   ├── pic
-│   │   └── CNode功能需求分析.png
-│   ├── router
+│   ├── main.js                         // 项目的总入口
+│   ├── pic                             // 和代码无关，README.md中的图片
+│   │   ├── CNode�\212\237�\203��\234\200�\202�\210\206�\236\220.png
+│   │   └── QR-Code.png
+│   ├── router                          // 路由设置
 │   │   └── index.js
-│   └── store
+│   └── store                           // 状态管理
 │       ├── modules
-│       │   ├── article-mutation-types.js
-│       │   ├── article.js
-│       │   ├── content-mutation-types.js
-│       │   └── content.js
-│       └── store.js
-└── static
-
+│       │   ├── article                 // 文章详情页
+│       │   │   ├── article-mutation-types.js
+│       │   │   └── article.js
+│       │   ├── content                 // 主页
+│       │   │   ├── content-mutation-types.js
+│       │   │   └── content.js
+│       │   ├── login                   // 登录页
+│       │   │   ├── login-mutation-types.js
+│       │   │   └── login.js
+│       │   ├── navbar                  // 主页导航栏
+│       │   │   ├── navbar-mutation-types.js
+│       │   │   └── navbar.js
+│       │   ├── notification            // 通知页
+│       │   │   ├── notification-mutation-types.js
+│       │   │   └── notification.js
+│       │   └── user                    // 用户详情页
+│       │       ├── user-mutation-types.js
+│       │       └── user.js
+│       └── store.js                    // 状态管理总入口
+├── README.md
+├── index.html
+└── package.json
 ```
 
 ## 功能实现情况
@@ -106,8 +156,10 @@ v0.2
  - [x] 点击用户头像，可以进入该用户的简介页面
  - [x] 登陆后，可在文章详情页点赞和评论
  - [x] 登陆后，在主页显示发布主题按钮，可以发布主题
+ - [x] 消息通知，消息设置已读功能
+ - [x] 对自己的文章可以进行编辑更新
  - [ ] 操作成功或失败后的消息提醒
- - [ ] 消息通知，消息设置已读
+ - [ ] 增加markdown的编辑器组件和预览器组件
 
 
 ## 心得体会&技术难点
@@ -251,6 +303,13 @@ export function deleteCookie (name) {
 
  解决办法：之前生命周期钩子用的是`mounted`，因此进入其他路由时，scroll事件仍然存在。所以现在改用`beforeRouteEnter`和`beforeRouteLeave`这两个路由的生命周期钩子，分别实现载入路由时的scroll事件挂载、离开路由时的scroll事件卸载。从而防止主页内容的懒加载一直触发。
 
+ 11.发布新文章或更新跳转至文章详情页面后，再按后退，怎么实现回到主页？
+ 
+ 解决办法：现在初步是使用，路由跳转的时候，先跳到主页，再跳到文章详情页，再按后退时，就会回到主页。
+ 
+ 12.如何实现点击评论右侧的回复按钮，添加@信息，并focus输入框？
+ 
+ 解决办法：通过vuex来实时记录回复相关的信息，并通过watch输入框的value来判断是否focus。
 ## 安装
 
 ``` bash

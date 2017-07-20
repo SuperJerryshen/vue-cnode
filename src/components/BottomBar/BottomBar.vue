@@ -4,12 +4,12 @@
       <i class="iconfont" :class="[isCollect ?  'icon-collected' : 'icon-collect']"></i>
       <p><span v-if="isCollect">已</span>收藏</p>
     </div>
-    <div class="edit" v-if="isLogin && isSelf">
+    <router-link class="edit" v-if="isLogin && isSelf" :to="{path: '/publish', query: {update: true, topic_id: topicId}}">
       <i class="iconfont icon-edit"></i>
       <p>编辑</p>
-    </div>
+    </router-link>
     <div class="input">
-      <input type="text" placeholder="在此输入回复" v-model="replyData" ref="input">
+      <input type="text" placeholder="在此输入回复" :value="replyData" ref="input">
     </div>
     <div class="reply" @click="pushReply">
       <i class="iconfont icon-fabu1"></i>
@@ -26,12 +26,23 @@
       ...mapGetters([
         'replyData',
         'replyAtId',
-        'userData'
+        'userData',
+        'isFocus'
       ])
+    },
+    watch: {
+      isFocus (val, oldVal) {
+        if (val) {
+          this.$refs.input.focus()
+        }
+      }
     },
     mounted () {
       this.$refs.input.addEventListener('input', (e) => {
         this.$store.dispatch('sync_reply_data', e.target.value)
+      })
+      this.$refs.input.addEventListener('blur', e => {
+        this.$store.dispatch('focus_is_false')
       })
     },
     methods: {
@@ -75,7 +86,7 @@
               data: {
                 id: res.data.reply_id,
                 author: {
-                  loginname: this.userData.username,
+                  loginname: this.userData.loginname,
                   avatar_url: this.userData.avatar_url
                 },
                 content: `<div class="markdown-text">${this.replyData}</div>`,

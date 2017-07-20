@@ -4,7 +4,7 @@ import Article from '../components/Article/Article'
 import Content from '../components/Content/Content'
 import UserDetail from '../components/UserDetail/UserDetail'
 import Login from '../components/Login/Login'
-import PublishNew from '../components/PublishNew/PublishNew'
+import Publish from '../components/Publish/Publish'
 import MyCollect from '../components/MyCollect/MyCollect'
 import Notification from '../components/Notification/Notification'
 
@@ -42,7 +42,7 @@ export default new Router({
     {
       path: '/publish',
       name: 'publish',
-      component: PublishNew
+      component: Publish
     },
     {
       path: '/collect/:loginname',

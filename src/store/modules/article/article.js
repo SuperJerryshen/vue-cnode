@@ -25,14 +25,16 @@ const state = {
   },
   replyData: '',
   replyAtId: '',
-  addReplyAt: 0
+  addReplyAt: 0,
+  isFocus: false
 }
 
 const getters = {
   articleData: state => state.articleData,
   replyData: state => state.replyData,
   replyAtId: state => state.replyAtId,
-  addReplyAt: state => state.addReplyAt
+  addReplyAt: state => state.addReplyAt,
+  isFocus: state => state.isFocus
 }
 
 const mutations = {
@@ -49,6 +51,7 @@ const mutations = {
     state.replyData = `@${replyUser.name} `
     state.replyAtId = replyUser.id
     state.addReplyAt = replyUser.num
+    state.isFocus = true
   },
   [types.CANCEL_REPLY_AT] (state) {
     state.replyAtId = ''
@@ -78,6 +81,9 @@ const mutations = {
       }
       return true
     })
+  },
+  [types.FOCUS_IS_FALSE] (state) {
+    state.isFocus = false
   }
 }
 
@@ -105,6 +111,9 @@ const actions = {
   },
   sync_reply_up ({commit}, data) {
     commit(types.SYNC_REPLY_UP, data)
+  },
+  focus_is_false ({ commit }) {
+    commit(types.FOCUS_IS_FALSE)
   }
 }
 

@@ -4,7 +4,7 @@
     回复了你的文章
     <router-link :to="{ name: 'article', params: {id: data.topic.id}}">{{ data.topic.title }}</router-link>
     <p class="reply-time">回复于{{ data.reply.create_at | timeFormat }}</p>
-    <div class="mark" v-if="!hasRead">标记已读</div>
+    <div class="mark" v-if="!hasRead" @click="markOne(data.id)">标记已读</div>
     <div class="content">
       <h2>详细内容：</h2>
       <div class="markdown-text" v-html="data.reply.content"></div>
@@ -16,6 +16,15 @@
   import timeFormat from '../../common/utils/timeFormat'
 
   export default {
+    methods: {
+      markOne (id) {
+        this.axios.post(`https://cnodejs.org/api/v1/message/mark_one/${id}`, {
+          accesstoken: this.userData.accesstoken
+        }).then(res => {
+          this.$store.dispatch('mark_one', id)
+        })
+      }
+    },
     filters: {
       timeFormat
     },

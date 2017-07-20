@@ -3,17 +3,17 @@
     <back-bar :title="'我的通知'"></back-bar>
     <div class="not-read">
       <h2 class="title">未读消息</h2>
-      <div class="mark-all" v-if="messageData.hasnot_read_messages">标记所有已读</div>
-      <ul class="not-read-list">
+      <div class="mark-all" v-if="messageData.hasnot_read_messages.length" @click="markAll">标记所有已读</div>
+      <ul class="not-read-list" v-if="messageData.hasnot_read_messages.length">
         <li v-for="msg in messageData.hasnot_read_messages">
           <message-card :data="msg" :hasRead="false"></message-card>
         </li>
       </ul>
-      <p v-if="!messageData.hasnot_read_messages" class="no-msg">暂无消息</p>
+      <p v-if="!messageData.hasnot_read_messages.length" class="no-msg">暂无消息</p>
     </div>
     <div class="has-read">
       <h2 class="title">已读消息</h2>
-      <ul class="has-read-list">
+      <ul class="has-read-list" v-if="messageData.has_read_messages.length">
         <li v-for="msg in messageData.has_read_messages">
           <message-card :data="msg"></message-card>
         </li>
@@ -45,6 +45,15 @@
         'userData',
         'messageData'
       ])
+    },
+    methods: {
+      markAll () {
+        this.axios.get('https://cnodejs.org/api/v1/message/mark_all', {
+          accesstoken: this.userData.accesstoken
+        }).then(res => {
+          this.$store.dispatch('mark_all')
+        })
+      }
     },
     beforeRouteEnter (to, from, next) {
       next(vm => {

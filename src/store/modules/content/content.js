@@ -15,7 +15,8 @@ const state = {
   selectedTab: 'all',
   pageCount: 1,
   isLoading: false,
-  isTopShow: false
+  isTopShow: false,
+  homeScrollTop: 0
 }
 
 const getters = {
@@ -23,7 +24,8 @@ const getters = {
   selectedTab: state => state.selectedTab,
   pageCount: state => state.pageCount,
   isLoading: state => state.isLoading,
-  isTopShow: state => state.isTopShow
+  isTopShow: state => state.isTopShow,
+  homeScrollTop: state => state.homeScrollTop
 }
 
 const mutations = {
@@ -46,6 +48,9 @@ const mutations = {
   },
   [types.BACK_TO_TOP] (state, boolean) {
     state.isTopShow = boolean
+  },
+  [types.RECORD_SCROLL_TOP] (state, count) {
+    state.homeScrollTop = count
   }
 }
 
@@ -64,6 +69,9 @@ const actions = {
   },
   backToTop ({ commit }, boolean) {
     commit(types.BACK_TO_TOP, boolean)
+  },
+  record_scroll_top ({ commit }, count) {
+    commit(types.RECORD_SCROLL_TOP, count)
   }
 }
 

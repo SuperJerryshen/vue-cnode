@@ -14,7 +14,7 @@
       <transition name="pulldown">
         <ul class="user-menu" v-show="isUserMenuShow">
           <li><i class="iconfont icon-home"></i><span @click="toRouter(`/user/${userData.loginname}`)">我的主页</span></li>
-          <li><i class="iconfont icon-edit"></i><span @click="toRouter(`/publish`)">发布文章</span></li>
+          <li><i class="iconfont icon-edit"></i><span @click="toRouter({path: 'publish', query: {update: false, topic_id: ''}})">发布文章</span></li>
           <li><i class="iconfont icon-collected"></i><span @click="toRouter(`/collect/${userData.loginname}`)">我的收藏</span></li>
           <li><i class="iconfont icon-exit"></i><span @click="loginOut">退出登录</span></li>
         </ul>
