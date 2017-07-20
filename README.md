@@ -310,6 +310,11 @@ export function deleteCookie (name) {
  12.如何实现点击评论右侧的回复按钮，添加@信息，并focus输入框？
  
  解决办法：通过vuex来实时记录回复相关的信息，并通过watch输入框的value来判断是否focus。
+
+ 13.有一个很奇怪的bug：ios下，如果在文章详情页返回主页时，此时的`window.scrollY`会保持文章详情页时的`window.scrollY`，如果此值满足异步加载更多数据的条件时，会导致异常加载数据。
+ 
+ 解决办法：不得已，只好在`beforeRouteEnter`钩子中，绑定滚动事件的函数加一个定时器，使其在100ms后绑定事件，所以此时的`window.scrollY`就会变成之前的值。
+
 ## 安装
 
 ``` bash
