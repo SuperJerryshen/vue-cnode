@@ -86,8 +86,6 @@
           // 对于手机端，仅仅通过高度差判断，且条件成立时，屏幕有可能还在滑动，就会触发更多次请求
           // 为了解决这个问题，在vuex加入了一个isLoading的变量，表示现在正在请求加载数据
           // 从而使得加载不会过量
-          alert(window.scrollY)
-          alert(window.pageYOffset)
           this.$store.dispatch('changeLoadingStatus')
           this.loadMoreData(this.selectedTab, this.pageCount)
         }
