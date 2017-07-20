@@ -43,6 +43,11 @@
         'isTopShow'
       ])
     },
+    watch: {
+      homeScrollTop (val, oldVal) {
+        console.log(val, oldVal)
+      }
+    },
     methods: {
       changeTab (tabType) {
         // 该函数负责发起服务器请求，并分发（dispatch）
@@ -81,6 +86,8 @@
           // 对于手机端，仅仅通过高度差判断，且条件成立时，屏幕有可能还在滑动，就会触发更多次请求
           // 为了解决这个问题，在vuex加入了一个isLoading的变量，表示现在正在请求加载数据
           // 从而使得加载不会过量
+          alert(window.scrollY)
+          alert(window.pageYOffset)
           this.$store.dispatch('changeLoadingStatus')
           this.loadMoreData(this.selectedTab, this.pageCount)
         }
@@ -112,7 +119,12 @@
       // （即页面总高度 - 页面顶部滑动的高度 <= 窗口高度）开始异步加载数据
       next(vm => {
         window.scrollTo(0, vm.homeScrollTop)
-        window.addEventListener('scroll', vm.scrollFunc)
+        // 设置定时器是为了解决以下bug：
+        // ios下，返回主页后，window.scrollY为文章详情页的scrollY值
+        // 因此会使其满足异步加载的条件
+        window.setTimeout(() => {
+          window.addEventListener('scroll', vm.scrollFunc)
+        }, 100)
       })
     },
     beforeRouteLeave (to, from, next) {

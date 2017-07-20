@@ -116,6 +116,7 @@
     beforeRouteLeave (to, from, next) {
       // 离开路由之前，将加载的状态还原为true
       this.isLoading = true
+      window.scrollTo(0, 0)
       this.$store.dispatch('cancel_reply_at')
       next()
     },
