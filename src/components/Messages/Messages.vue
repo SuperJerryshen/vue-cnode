@@ -64,7 +64,6 @@
           color: #2d8cf0;
           display: inline-block;
           font-size: 20px;
-          transform-origin: 10px 9.5px;
           animation: loading .5s linear infinite;
         }
       }
