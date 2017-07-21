@@ -43,11 +43,6 @@
         'isTopShow'
       ])
     },
-    watch: {
-      homeScrollTop (val, oldVal) {
-        console.log(val, oldVal)
-      }
-    },
     methods: {
       changeTab (tabType) {
         // 该函数负责发起服务器请求，并分发（dispatch）

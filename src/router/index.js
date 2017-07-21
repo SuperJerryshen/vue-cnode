@@ -10,12 +10,14 @@ import Notification from '../components/Notification/Notification'
 
 Vue.use(Router)
 
-// 输出五个组件的路由：
+// 输出七个组件的路由：
 // ① 主页
 // ② 文章详情页
 // ③ 用户详情页
 // ④ 用户登录页
 // ⑤ 发布文章页
+// ⑥ 用户收藏页
+// ⑦ 我的通知页
 
 export default new Router({
   routes: [
