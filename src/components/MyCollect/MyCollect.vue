@@ -6,26 +6,18 @@
         <article-card :article="item"></article-card>
       </li>
     </ul>
-    <loading v-if="isLoading"></loading>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
   import BackBar from '../BackBar/BackBar'
   import ArticleCard from '../ArticleCard/ArticleCard'
-  import Loading from '../Loading/Loading'
   import { mapGetters } from 'vuex'
 
   export default {
     components: {
       BackBar,
-      ArticleCard,
-      Loading
-    },
-    data () {
-      return {
-        isLoading: true
-      }
+      ArticleCard
     },
     computed: {
       ...mapGetters([
@@ -35,9 +27,10 @@
     beforeRouteEnter (to, from, next) {
       window.scrollTo(0, 0)
       next(vm => {
+        vm.$store.dispatch('changeLoadingStatus', true)
         vm.axios.get(`https://cnodejs.org/api/v1/topic_collect/${vm.$route.params.loginname}`)
           .then(res => {
-            vm.isLoading = false
+            vm.$store.dispatch('changeLoadingStatus', false)
             vm.$store.dispatch('init_my_collections', res.data.data)
           })
       })

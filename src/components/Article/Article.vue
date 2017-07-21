@@ -42,13 +42,11 @@
         ></bottom-bar>
       </div>
     </div>
-    <loading v-if="isLoading"></loading>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
   import { mapGetters } from 'vuex'
-  import Loading from '../Loading/Loading'
   import BackBar from '../BackBar/BackBar'
   import BottomBar from '../BottomBar/BottomBar'
   import timeFormat from '../../common/utils/timeFormat'
@@ -56,7 +54,6 @@
   export default {
     data () {
       return {
-        isLoading: true,
         tabTypes: {
           'share': '分享',
           'ask': '问答',
@@ -83,6 +80,8 @@
               uper: this.userData.id
             })
           }
+        }, () => {
+          this.$store.dispatch('connect_fail')
         })
       }
     },
@@ -90,7 +89,8 @@
       ...mapGetters([
         'articleData',
         'isLogin',
-        'userData'
+        'userData',
+        'isLoading'
       ]),
       isSelf () {
         return this.articleData.author.loginname === this.userData.loginname
@@ -99,16 +99,14 @@
     filters: {
       'timeFormat': timeFormat
     },
-    created () {
-      this.isLoading = true
-    },
     beforeRouteEnter (to, from, next) {
       // 在载入路由之前
       // 异步获取数据，并且显示加载界面
       next(vm => {
+        vm.$store.dispatch('changeLoadingStatus', true)
         vm.axios.get(`https://cnodejs.org/api/v1/topic/${vm.$route.params.id}?accesstoken=${vm.userData.accesstoken}`)
           .then(res => {
-            vm.isLoading = false
+            vm.$store.dispatch('changeLoadingStatus', false)
             vm.$store.dispatch('initArticleData', res.data.data)
           })
       })
@@ -121,7 +119,6 @@
       next()
     },
     components: {
-      Loading,
       BackBar,
       BottomBar
     }

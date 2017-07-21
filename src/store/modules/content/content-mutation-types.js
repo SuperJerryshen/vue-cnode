@@ -13,3 +13,5 @@ export const CHANGE_LOAD_STATUS = 'CHANGE_LOADING_STATUS'
 export const RECORD_SCROLL_TOP = 'RECORD_SCROLL_TOP'
 // 回到顶部
 export const BACK_TO_TOP = 'BACK_TO_TOP'
+// 异步请求懒加载数据
+export const ASYNC_REQUEST_DATA = 'ASYNC_REQUEST_DATA'

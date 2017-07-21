@@ -17,8 +17,6 @@
           <article-card :article="item"></article-card>
         </li>
       </ul>
-      <div class="loading" v-if="isLoading"><img class="loading-pic" src="../Loading/loading.svg" alt="loading">拼命加载中
-      </div>
       <div class="back-to-top" v-show="isTopShow" @click="backToTop">
         <i class="iconfont icon-back-to-top"></i>
         <p class="text">回到顶部</p>
@@ -38,6 +36,7 @@
         'selectedTab',
         'articleLists',
         'pageCount',
+        'isRequesting',
         'isLoading',
         'homeScrollTop',
         'isTopShow'
@@ -48,12 +47,17 @@
         // 该函数负责发起服务器请求，并分发（dispatch）
         // 'changeTab'和'changeTabData'的actions。
         // 功能：转换tab主题，返回页面首部，并请求数据。
+        this.$store.dispatch('add_loading')
         this.axios.get(`https://cnodejs.org/api/v1/topics/?tab=${tabType}&page=1`)
           .then(res => {
+            this.$store.dispatch('delete_message')
             this.$store.dispatch('changeTab', tabType)
             this.$store.dispatch('changeTabData', res.data.data)
             // 使页面回到顶部
             window.scrollTo(0, 0)
+          }, res => {
+            this.$store.dispatch('delete_message')
+            this.$store.dispatch('connect_fail')
           })
       },
       loadMoreData (tabType, pageCount) {
@@ -61,7 +65,12 @@
         // 通过向服务器发起请求，分发（dispatch）loadMoreData的actions
         this.axios.get(`https://cnodejs.org/api/v1/topics/?tab=${tabType}&page=${pageCount + 1}`)
           .then(res => {
+            this.$store.dispatch('delete_message')
             this.$store.dispatch('loadMoreData', res.data.data)
+            this.$store.dispatch('async_request_data', false)
+          }, () => {
+            this.$store.dispatch('delete_message')
+            this.$store.dispatch('connect_fail')
           })
       },
       backToTop () {
@@ -77,11 +86,12 @@
       },
       scrollFunc () {
         this.$store.dispatch('record_scroll_top', window.scrollY)
-        if (!this.isLoading && document.documentElement.offsetHeight - window.scrollY <= window.screen.height) {
+        if (!this.isRequesting && document.documentElement.offsetHeight - window.scrollY <= window.screen.height) {
           // 对于手机端，仅仅通过高度差判断，且条件成立时，屏幕有可能还在滑动，就会触发更多次请求
           // 为了解决这个问题，在vuex加入了一个isLoading的变量，表示现在正在请求加载数据
           // 从而使得加载不会过量
-          this.$store.dispatch('changeLoadingStatus')
+          this.$store.dispatch('async_request_data', true)
+          this.$store.dispatch('add_loading')
           this.loadMoreData(this.selectedTab, this.pageCount)
         }
         if (window.scrollY > 200) {
@@ -183,25 +193,6 @@
     }
     .content {
       width: 100%;
-      .loading {
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        height: 40px;
-        line-height: 40px;
-        font-size: 14px;
-        background-color: #20a0ff;
-        color: #ffffff;
-        text-align: center;
-        .loading-pic {
-          display: inline-block;
-          width: 28px;
-          height: 28px;
-          vertical-align: middle;
-          animation: loading .5s linear infinite;
-        }
-      }
       .back-to-top {
         position: fixed;
         right: 10px;

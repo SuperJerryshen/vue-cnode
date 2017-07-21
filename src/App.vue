@@ -4,14 +4,22 @@
     <keep-alive>
       <router-view></router-view>
     </keep-alive>
+    <messages></messages>
+    <loading></loading>
   </div>
 </template>
 
 <script>
   import './common/style/icon.scss'
+  import Messages from './components/Messages/Messages'
+  import Loading from './components/Loading/Loading'
 
   export default {
-    name: 'app'
+    name: 'app',
+    components: {
+      Messages,
+      Loading
+    }
   }
 </script>
 

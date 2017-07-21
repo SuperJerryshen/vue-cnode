@@ -72,9 +72,14 @@
       toNotification () {
         if (this.isLogin) {
           this.$router.push('/notification')
+        } else {
+          this.$store.dispatch('add_warn', {content: '请登录后使用！'})
         }
       },
       loginOut () {
+        this.$store.dispatch('add_success', {
+          content: '退出成功'
+        })
         this.$store.dispatch('loginOut')
         this.isUserMenuShow = !this.isUserMenuShow
       }

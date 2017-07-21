@@ -14,7 +14,9 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.icon-reply:before { content: "\e61f"; }
+.icon-loading:before { content: "\e64f"; }
+
+.icon-fail:before { content: "\e658"; }
 
 .icon-user:before { content: "\e619"; }
 
@@ -71,3 +73,9 @@
 .icon-exit:before { content: "\e601"; }
 
 .icon-clickQuery:before { content: "\e604"; }
+
+.icon-reply:before { content: "\e66c"; }
+
+.icon-success:before { content: "\e6b3"; }
+
+.icon-warn:before { content: "\e6b4"; }

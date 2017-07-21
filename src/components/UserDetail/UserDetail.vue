@@ -1,6 +1,6 @@
 <template>
   <div class="user-detail-wrap">
-    <div class="user-detail" v-show="!isLoading">
+    <div class="user-detail">
       <back-bar :title="userDetailData.loginname"></back-bar>
       <div class="user-info">
         <h2 class="user-title">个人信息</h2>
@@ -29,13 +29,11 @@
         <p class="no-content" v-if="!userDetailData.recent_topics.length">无话题</p>
       </div>
     </div>
-    <loading v-if="isLoading"></loading>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
   import BackBar from '../BackBar/BackBar'
-  import Loading from '../Loading/Loading'
   import ArticleCard from '../ArticleCard/ArticleCard'
   import { mapGetters } from 'vuex'
   import timeFormat from '../../common/utils/timeFormat'
@@ -43,13 +41,7 @@
   export default {
     components: {
       BackBar,
-      Loading,
       ArticleCard
-    },
-    data () {
-      return {
-        isLoading: true
-      }
     },
     computed: {
       ...mapGetters([
@@ -61,16 +53,13 @@
     },
     beforeRouteEnter (to, from, next) {
       next(vm => {
+        vm.$store.dispatch('changeLoadingStatus', true)
         vm.axios.get(`https://cnodejs.org/api/v1/user/${vm.$route.params.loginname}`)
           .then(res => {
-            vm.isLoading = false
+            vm.$store.dispatch('changeLoadingStatus', false)
             vm.$store.dispatch('initUserDetailData', res.data.data)
           })
       })
-    },
-    beforeRouteLeave (to, from, next) {
-      this.isLoading = true
-      next()
     }
   }
 </script>

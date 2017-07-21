@@ -6,7 +6,7 @@
       <div class="mark-all" v-if="messageData.hasnot_read_messages.length" @click="markAll">标记所有已读</div>
       <ul class="not-read-list" v-if="messageData.hasnot_read_messages.length">
         <li v-for="msg in messageData.hasnot_read_messages">
-          <message-card :data="msg" :hasRead="false"></message-card>
+          <message-card :data="msg" :hasRead="false" :accesstoken="userData.accesstoken"></message-card>
         </li>
       </ul>
       <p v-if="!messageData.hasnot_read_messages.length" class="no-msg">暂无消息</p>
@@ -15,7 +15,7 @@
       <h2 class="title">已读消息</h2>
       <ul class="has-read-list" v-if="messageData.has_read_messages.length">
         <li v-for="msg in messageData.has_read_messages">
-          <message-card :data="msg"></message-card>
+          <message-card :data="msg" :accesstoken="userData.accesstoken"></message-card>
         </li>
       </ul>
       <p v-if="!messageData.has_read_messages.length" class="no-msg">暂无消息</p>
@@ -26,19 +26,12 @@
 <script type="text/ecmascript-6">
   import BackBar from '../BackBar/BackBar'
   import MessageCard from '../MessageCard/MessageCard'
-  import Loading from '../Loading/Loading'
   import { mapGetters } from 'vuex'
 
   export default {
     components: {
       BackBar,
-      MessageCard,
-      Loading
-    },
-    data () {
-      return {
-        isLoading: true
-      }
+      MessageCard
     },
     computed: {
       ...mapGetters([
@@ -51,15 +44,20 @@
         this.axios.get('https://cnodejs.org/api/v1/message/mark_all', {
           accesstoken: this.userData.accesstoken
         }).then(res => {
+          this.$store.dispatch('add_success', {content: '标记成功'})
           this.$store.dispatch('mark_all')
+        }, () => {
+          this.$store.dispatch('add_fail', {content: '标记失败'})
         })
       }
     },
     beforeRouteEnter (to, from, next) {
       next(vm => {
+        window.scrollTo(0, 0)
+        vm.$store.dispatch('changeLoadingStatus', true)
         vm.axios.get(`https://cnodejs.org/api/v1/messages?accesstoken=${vm.userData.accesstoken}`)
           .then(res => {
-            vm.isLoading = false
+            vm.$store.dispatch('changeLoadingStatus', false)
             vm.$store.dispatch('get_messages', res.data.data)
           })
       })

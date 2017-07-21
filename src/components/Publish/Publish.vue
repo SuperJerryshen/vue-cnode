@@ -4,7 +4,7 @@
     <div class="publish">
       <div class="new-title">
         <h2>文章标题</h2>
-        <input class="title" type="text" name="title" placeholder="请输入标题" ref="title"><br/>
+        <input class="title" type="text" name="title" placeholder="请输入标题，不少于5个字符" ref="title"><br/>
       </div>
       <div class="new-tab">
         <h2>文章类型</h2>
@@ -53,6 +53,8 @@
               vm.$refs.title.value = data.title
               vm.$refs.tab.value = data.tab
               vm.$refs.content.value = data.content
+            }, () => {
+              this.$store.dispatch('add_fail', {content: '载入失败'})
             })
         }
       })
@@ -67,12 +69,11 @@
             tab: this.$refs.tab.value,
             content: this.$refs.content.value
           }).then(res => {
-            if (res.data.success === true) {
-              this.$router.push('/')
-              this.$router.push(`/article/${res.data.topic_id}`)
-            } else {
-              console.log('发布失败！原因：' + res.data.error_msg)
-            }
+            this.$store.dispatch('add_success', {content: '发布成功'})
+            this.$router.push('/')
+            this.$router.push(`/article/${res.data.topic_id}`)
+          }, () => {
+            this.$store.dispatch('add_fail', {content: '发布失败'})
           })
         } else {
           this.axios.post('https://cnodejs.org/api/v1/topics', {
@@ -81,12 +82,11 @@
             tab: this.$refs.tab.value,
             content: this.$refs.content.value
           }).then(res => {
-            if (res.data.success === true) {
-              this.$router.push('/')
-              this.$router.push(`/article/${res.data.topic_id}`)
-            } else {
-              console.log('发布失败！原因：' + res.data.error_msg)
-            }
+            this.$store.dispatch('add_success', {content: '发布成功'})
+            this.$router.push('/')
+            this.$router.push(`/article/${res.data.topic_id}`)
+          }, () => {
+            this.$store.dispatch('add_fail', {content: '发布失败'})
           })
         }
       }

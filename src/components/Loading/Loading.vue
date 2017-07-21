@@ -1,5 +1,5 @@
 <template>
-  <div class="loading">
+  <div class="loading" v-show="isLoading">
     <div class="loading-content">
       <img src="./loading.svg" alt="loading" class="loading-pic">
       <p class="text">玩命加载中</p>
@@ -8,13 +8,26 @@
 </template>
 
 <script type="text/ecmascript-6">
-  export default {}
+  import { mapGetters } from 'vuex'
+
+  export default {
+    computed: {
+      ...mapGetters([
+        'isLoading'
+      ])
+    }
+  }
 </script>
 
 <style lang="scss" rel="stylesheet/scss">
   .loading {
+    position: fixed;
+    z-index: 4000;
+    top: 0;
     width: 100%;
+    height: 100%;
     text-align: center;
+    background-color: #f8f8f9;
     .loading-content {
       height: 76px;
       margin: 50% auto 0;

@@ -16,7 +16,8 @@ const state = {
   pageCount: 1,
   isLoading: false,
   isTopShow: false,
-  homeScrollTop: 0
+  homeScrollTop: 0,
+  isRequesting: false
 }
 
 const getters = {
@@ -25,7 +26,8 @@ const getters = {
   pageCount: state => state.pageCount,
   isLoading: state => state.isLoading,
   isTopShow: state => state.isTopShow,
-  homeScrollTop: state => state.homeScrollTop
+  homeScrollTop: state => state.homeScrollTop,
+  isRequesting: state => state.isRequesting
 }
 
 const mutations = {
@@ -43,8 +45,11 @@ const mutations = {
     state.pageCount++
     state.isLoading = false
   },
-  [types.CHANGE_LOAD_STATUS] (state, status) {
-    state.isLoading = true
+  [types.ASYNC_REQUEST_DATA] (state, boolean) {
+    state.isRequesting = boolean
+  },
+  [types.CHANGE_LOAD_STATUS] (state, boolean) {
+    state.isLoading = boolean
   },
   [types.BACK_TO_TOP] (state, boolean) {
     state.isTopShow = boolean
@@ -64,8 +69,11 @@ const actions = {
   loadMoreData ({ commit }, data) {
     commit(types.LOAD_MORE_DATA, data)
   },
-  changeLoadingStatus ({ commit }) {
-    commit(types.CHANGE_LOAD_STATUS)
+  async_request_data ({commit}, boolean) {
+    commit(types.ASYNC_REQUEST_DATA, boolean)
+  },
+  changeLoadingStatus ({ commit }, boolean) {
+    commit(types.CHANGE_LOAD_STATUS, boolean)
   },
   backToTop ({ commit }, boolean) {
     commit(types.BACK_TO_TOP, boolean)

@@ -7,10 +7,11 @@
 }
 // slide
 .slide-enter-active, .slide-leave-active {
-  transition: transform .5s ease;
+  transition: top .5s ease, opacity .5s ease;
 }
 .slide-enter, .slide-leave-to {
-  transform: translateX(100%);
+  top: 0;
+  opacity: 0;
 }
 // pulldown
 .pulldown-enter-active, .pulldown-leave-active {

@@ -26,13 +26,19 @@
           this.axios.post('https://cnodejs.org/api/v1/accesstoken', {
             accesstoken: token
           }).then(res => {
-            if (res.data.success) {
-              res.data.accesstoken = token
-              this.$store.dispatch('initUserData', res.data)
-              this.$router.back()
-            }
-          }).catch(() => {
-            console.log('token验证失败！')
+            this.$store.dispatch('add_success', {content: '登陆成功'})
+            res.data.accesstoken = token
+            this.$store.dispatch('initUserData', res.data)
+            this.$router.back()
+          }, (res) => {
+            console.log(res)
+            this.$store.dispatch('add_fail', {
+              content: '验证失败'
+            })
+          })
+        } else {
+          this.$store.dispatch('add_warn', {
+            content: 'Token不能为空'
           })
         }
       }

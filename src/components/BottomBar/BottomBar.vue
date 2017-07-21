@@ -48,7 +48,9 @@
     methods: {
       collectIt () {
         if (!this.isLogin) {
-          window.alert('请登录后使用！')
+          this.$store.dispatch('add_warn', {
+            content: '请登录后使用'
+          })
           return false
         }
         if (this.isCollect) {
@@ -60,6 +62,8 @@
             if (res.data.success) {
               this.$store.dispatch('deCollect')
             }
+          }, () => {
+            this.$store.dispatch('connect_fail')
           })
         } else if (!this.isCollect) {
           this.axios.post('https://cnodejs.org/api/v1/topic_collect/collect', {
@@ -69,36 +73,49 @@
             if (res.data.success) {
               this.$store.dispatch('collect')
             }
+          }, () => {
+            this.$store.dispatch('connect_fail')
           })
         }
       },
       pushReply () {
-        this.axios.post(`https://cnodejs.org/api/v1/topic/${this.topicId}/replies`, {
-          accesstoken: this.accesstoken,
-          content: this.replyData,
-          reply_id: this.replyAtId
-        }).then(res => {
-          if (res.data.success) {
-            // 成功发送回复后，
-            // 将内容添加到评论列表中
-            this.$store.dispatch('add_reply', {
-              idx: this.replyAtId,
-              data: {
-                id: res.data.reply_id,
-                author: {
-                  loginname: this.userData.loginname,
-                  avatar_url: this.userData.avatar_url
-                },
-                content: `<div class="markdown-text">${this.replyData}</div>`,
-                ups: [],
-                create_at: new Date().toISOString(),
-                reply_id: this.replyAtId,
-                is_uped: false
-              }
-            })
-            this.$store.dispatch('cancel_reply_at')
-          }
-        })
+        if (this.isLogin) {
+          this.axios.post(`https://cnodejs.org/api/v1/topic/${this.topicId}/replies`, {
+            accesstoken: this.accesstoken,
+            content: this.replyData,
+            reply_id: this.replyAtId
+          }).then(res => {
+            if (res.data.success) {
+              // 成功发送回复后，
+              // 将内容添加到评论列表中
+              this.$store.dispatch('add_success', {
+                content: '评论成功'
+              })
+              this.$store.dispatch('add_reply', {
+                idx: this.replyAtId,
+                data: {
+                  id: res.data.reply_id,
+                  author: {
+                    loginname: this.userData.loginname,
+                    avatar_url: this.userData.avatar_url
+                  },
+                  content: `<div class="markdown-text">${this.replyData}</div>`,
+                  ups: [],
+                  create_at: new Date().toISOString(),
+                  reply_id: this.replyAtId,
+                  is_uped: false
+                }
+              })
+              this.$store.dispatch('cancel_reply_at')
+            }
+          }, () => {
+            this.$store.dispatch('connect_fail')
+          })
+        } else {
+          this.$store.dispatch('add_warn', {
+            content: '请登录后使用'
+          })
+        }
       }
     },
     props: {
