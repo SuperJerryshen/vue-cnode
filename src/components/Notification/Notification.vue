@@ -41,7 +41,7 @@
     },
     methods: {
       markAll () {
-        this.axios.get('https://cnodejs.org/api/v1/message/mark_all', {
+        this.axios.post('https://cnodejs.org/api/v1/message/mark_all', {
           accesstoken: this.userData.accesstoken
         }).then(res => {
           this.$store.dispatch('add_success', {content: '标记成功'})
