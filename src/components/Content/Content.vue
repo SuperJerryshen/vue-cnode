@@ -114,26 +114,23 @@
           this.$store.dispatch('changeTabData', res.data.data)
         })
     },
-    beforeRouteEnter (to, from, next) {
+    activated () {
       // 当内容挂在到页面上以后，
       // 通过scroll事件，监听页面的变化，
       // 当document.documentElement.offsetHeight - window.scrollY
       // <= window.screen.height时，
       // （即页面总高度 - 页面顶部滑动的高度 <= 窗口高度）开始异步加载数据
-      next(vm => {
-        window.scrollTo(0, vm.homeScrollTop)
-        // 设置定时器是为了解决以下bug：
-        // ios下，返回主页后，window.scrollY为文章详情页的scrollY值
-        // 因此会使其满足异步加载的条件
-        window.setTimeout(() => {
-          window.addEventListener('scroll', vm.scrollFunc)
-        }, 100)
-      })
+      window.scrollTo(0, this.homeScrollTop)
+      // 设置定时器是为了解决以下bug：
+      // ios下，返回主页后，window.scrollY为文章详情页的scrollY值
+      // 因此会使其满足异步加载的条件
+      window.setTimeout(() => {
+        window.addEventListener('scroll', this.scrollFunc)
+      }, 100)
     },
-    beforeRouteLeave (to, from, next) {
+    deactivated () {
       // 当转移到其他路由时，移除scroll事件
       window.removeEventListener('scroll', this.scrollFunc)
-      next()
     },
     components: {
       NavBar,

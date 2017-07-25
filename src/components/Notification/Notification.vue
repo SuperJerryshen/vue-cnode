@@ -51,21 +51,18 @@
         })
       }
     },
-    beforeRouteEnter (to, from, next) {
-      next(vm => {
-        window.scrollTo(0, 0)
-        vm.$store.dispatch('changeLoadingStatus', true)
-        vm.axios.get(`https://cnodejs.org/api/v1/messages?accesstoken=${vm.userData.accesstoken}`)
-          .then(res => {
-            vm.$store.dispatch('changeLoadingStatus', false)
-            vm.$store.dispatch('get_messages', res.data.data)
-          })
-      })
+    activated () {
+      window.scrollTo(0, 0)
+      this.$store.dispatch('changeLoadingStatus', true)
+      this.axios.get(`https://cnodejs.org/api/v1/messages?accesstoken=${this.userData.accesstoken}`)
+        .then(res => {
+          this.$store.dispatch('changeLoadingStatus', false)
+          this.$store.dispatch('get_messages', res.data.data)
+        })
     },
-    beforeRouteLeave (to, from, next) {
+    deactivated () {
       // 离开路由之前，将加载的状态还原为true
       this.isLoading = true
-      next()
     }
   }
 </script>

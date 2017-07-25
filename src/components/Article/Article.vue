@@ -99,24 +99,21 @@
     filters: {
       'timeFormat': timeFormat
     },
-    beforeRouteEnter (to, from, next) {
+    activated () {
       // 在载入路由之前
       // 异步获取数据，并且显示加载界面
-      next(vm => {
-        vm.$store.dispatch('changeLoadingStatus', true)
-        vm.axios.get(`https://cnodejs.org/api/v1/topic/${vm.$route.params.id}?accesstoken=${vm.userData.accesstoken}`)
-          .then(res => {
-            vm.$store.dispatch('changeLoadingStatus', false)
-            vm.$store.dispatch('initArticleData', res.data.data)
-          })
-      })
+      this.$store.dispatch('changeLoadingStatus', true)
+      this.axios.get(`https://cnodejs.org/api/v1/topic/${this.$route.params.id}?accesstoken=${this.userData.accesstoken}`)
+        .then(res => {
+          this.$store.dispatch('changeLoadingStatus', false)
+          this.$store.dispatch('initArticleData', res.data.data)
+        })
     },
-    beforeRouteLeave (to, from, next) {
+    deactivated () {
       // 离开路由之前，将加载的状态还原为true
       this.isLoading = true
       window.scrollTo(0, 0)
       this.$store.dispatch('cancel_reply_at')
-      next()
     },
     components: {
       BackBar,

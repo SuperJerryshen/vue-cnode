@@ -51,15 +51,13 @@
     filters: {
       timeFormat
     },
-    beforeRouteEnter (to, from, next) {
-      next(vm => {
-        vm.$store.dispatch('changeLoadingStatus', true)
-        vm.axios.get(`https://cnodejs.org/api/v1/user/${vm.$route.params.loginname}`)
-          .then(res => {
-            vm.$store.dispatch('changeLoadingStatus', false)
-            vm.$store.dispatch('initUserDetailData', res.data.data)
-          })
-      })
+    activated () {
+      this.$store.dispatch('changeLoadingStatus', true)
+      this.axios.get(`https://cnodejs.org/api/v1/user/${this.$route.params.loginname}`)
+        .then(res => {
+          this.$store.dispatch('changeLoadingStatus', false)
+          this.$store.dispatch('initUserDetailData', res.data.data)
+        })
     }
   }
 </script>

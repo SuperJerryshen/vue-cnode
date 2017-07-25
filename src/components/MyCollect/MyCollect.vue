@@ -24,20 +24,17 @@
         'myCollections'
       ])
     },
-    beforeRouteEnter (to, from, next) {
+    activated () {
       window.scrollTo(0, 0)
-      next(vm => {
-        vm.$store.dispatch('changeLoadingStatus', true)
-        vm.axios.get(`https://cnodejs.org/api/v1/topic_collect/${vm.$route.params.loginname}`)
-          .then(res => {
-            vm.$store.dispatch('changeLoadingStatus', false)
-            vm.$store.dispatch('init_my_collections', res.data.data)
-          })
-      })
+      this.$store.dispatch('changeLoadingStatus', true)
+      this.axios.get(`https://cnodejs.org/api/v1/topic_collect/${this.$route.params.loginname}`)
+        .then(res => {
+          this.$store.dispatch('changeLoadingStatus', false)
+          this.$store.dispatch('init_my_collections', res.data.data)
+        })
     },
-    beforeRouteLeave (to, from, next) {
+    deactivated () {
       this.isLoading = true
-      next()
     }
   }
 </script>
