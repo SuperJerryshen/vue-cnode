@@ -37,7 +37,7 @@
     position: fixed;
     top: 0;
     left: 0;
-    z-index: 9999;
+    z-index: 4000;
     .icon-houtui {
       line-height: 28px;
       font-size: 24px;

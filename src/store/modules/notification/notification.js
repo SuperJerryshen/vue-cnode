@@ -16,16 +16,17 @@ const mutations = {
     state.messageData = data
   },
   [types.MARK_ONE] (state, id) {
+    // 移除已读并加入已读列表
     state.messageData.hasnot_read_messages.forEach((item, idx, arr) => {
       if (item.id === id) {
         arr.splice(idx, 1)
+        state.messageData.has_read_messages.unshift(item)
       }
     })
   },
   [types.MARK_ALL] (state) {
-    state.messageData.hasnot_read_messages.forEach((item) => {
-      state.messageData.has_read_messages.unshift(item)
-    })
+    // 合并未读消息和已读消息
+    state.messageData.has_read_messages = state.messageData.hasnot_read_messages.concat(state.messageData.has_read_messages)
     state.messageData.hasnot_read_messages = []
   }
 }

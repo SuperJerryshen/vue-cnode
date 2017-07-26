@@ -19,7 +19,7 @@ Vue2.0: 构建项目，属于底层框架
 Vue-Router: 通过hash值的变化，从而改变页面结构的路由。
 Vuex: Vue官方提供的状态管理模式。
 Axios, Vue-Axios: http请求模块
-ES6: 最新的Javascript语法
+ES6: 较新的Javascript语法
 Sass: CSS预编译器
 ```
 
