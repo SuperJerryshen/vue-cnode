@@ -34,11 +34,13 @@
         isUserMenuShow: false
       }
     },
-    mounted () {
+    activated () {
       if (this.isLogin) {
         this.axios.get(`https://cnodejs.org/api/v1/message/count?accesstoken=${this.userData.accesstoken}`)
           .then(res => {
             this.$store.dispatch('get_message_count', res.data.data)
+          }, () => {
+            this.$store.dispatch('connect_fail')
           })
       }
     },
