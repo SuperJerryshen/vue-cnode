@@ -25,7 +25,7 @@
         </div>
         <div class="version">
           <h3>版本</h3>
-          <p>v0.4.0 beta</p>
+          <p>v0.4.1 beta</p>
         </div>
       </div>
       <div class="shade" @click="changeAboutMeShow"></div>
