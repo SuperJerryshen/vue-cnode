@@ -75,12 +75,12 @@
       },
       backToTop () {
         // 将返回顶部设置成250ms内完成的动画。
-        let scrollPiece = window.scrollY / 50
         let topInterval = window.setInterval(() => {
-          if (window.scrollY <= 0) {
+          if (window.scrollY < 1) {
+            window.scrollTo(0, 0)
             window.clearInterval(topInterval)
           } else {
-            window.scrollTo(0, window.scrollY - scrollPiece)
+            window.scrollTo(0, window.scrollY * 47 / 50)
           }
         }, 5)
       },
