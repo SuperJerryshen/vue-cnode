@@ -4,9 +4,15 @@ import Article from '../components/Article/Article'
 import Content from '../components/Content/Content'
 import UserDetail from '../components/UserDetail/UserDetail'
 import Login from '../components/Login/Login'
-import Publish from '../components/Publish/Publish'
 import MyCollect from '../components/MyCollect/MyCollect'
 import Notification from '../components/Notification/Notification'
+
+// 异步加载Publish发布文章组件，因为此组件较大
+const Publish = resolve => {
+  require.ensure(['../components/Publish/Publish'], () => {
+    resolve(require('../components/Publish/Publish'))
+  })
+}
 
 Vue.use(Router)
 
