@@ -8,9 +8,14 @@ import MyCollect from '../components/MyCollect/MyCollect'
 import Notification from '../components/Notification/Notification'
 
 // 异步加载Publish发布文章组件，因为此组件较大
+// 加载时显示加载页面
 const Publish = resolve => {
+  this.a.app.$store.dispatch('changeLoadingStatus', true)
   require.ensure(['../components/Publish/Publish'], () => {
     resolve(require('../components/Publish/Publish'))
+  }).then(() => {
+    // this.$store.dispatch('changeLoadingStatus', false)
+    this.a.app.$store.dispatch('changeLoadingStatus', false)
   })
 }
 

@@ -13,6 +13,7 @@
   export default {
     computed: {
       ...mapGetters([
+        // 该属性暂时放置在store/modules/content下
         'isLoading'
       ])
     }
