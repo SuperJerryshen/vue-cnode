@@ -7,7 +7,7 @@
 
 **源码地址**：[用力点我](https://github.com/SuperJerryshen/Vue-CNode)
 
-**预览地址**：[使劲点我](http://106.14.179.237:8082)
+**预览地址**：[使劲点我](http://cnode.jerryshen.cn)
 
 你也可以扫描下面的二维码预览线上项目：
 
@@ -23,6 +23,8 @@ ES6: 较新的Javascript语法
 Sass: CSS预编译器
 ```
 
+> 用到的一些工具包括iconfont来做字体图标，引入mavon-editor插件，优化编辑文章时的markdown书写体验。
+
 ## 版本
 
 v0.4.1 beta
@@ -30,7 +32,7 @@ v0.4.1 beta
 ## 功能需求分析
 > 根据需求，我做了一张分析图，如下。
 
-![CNode需求分析图](/src/pic/CNode功能需求分析.png)
+![CNode需求分析图](/src/pic/CNode-requirement-analysis.png)
 
 ## 项目结构
 ```
@@ -49,20 +51,6 @@ v0.4.1 beta
 │   ├── dev.env.js
 │   ├── index.js
 │   └── prod.env.js
-├── docs                                // 静态资源地址
-│   ├── index.html
-│   └── static
-│       ├── css
-│       │   └── app.d99bca81a0eef77c7e0d8c70f520707c.css
-│       ├── fonts
-│       │   ├── iconfont.8553d3c.ttf
-│       │   └── iconfont.b29ac85.eot
-│       ├── img
-│       │   └── iconfont.d4553f2.svg
-│       └── js
-│           ├── app.cb09e437ae0bec6205b9.js
-│           ├── manifest.aa9548ef140031379c30.js
-│           └── vendor.f3d0844a66c0c2cabe0b.js
 ├── src                                 // 项目文件位置
 │   ├── App.vue                         // 组件总入口
 │   ├── common                          // 通用文件
@@ -111,7 +99,7 @@ v0.4.1 beta
 │   │       └── navBar.vue
 │   ├── main.js                         // 项目的总入口
 │   ├── pic                             // 和代码无关，README.md中的图片
-│   │   ├── CNode�\212\237�\203��\234\200�\202�\210\206�\236\220.png
+│   │   ├── CNode-requirement-analysis.png
 │   │   └── QR-Code.png
 │   ├── router                          // 路由设置
 │   │   └── index.js
@@ -190,7 +178,7 @@ v0.4.1 beta
  5.如何实现主页文章列表的懒加载？
 
  解决办法：判断滑动的总高度 - 滑动距离顶部的距离 <= 屏幕的可用高度，也就是以下公式：
- ```
+ ```javascript
  document.documentElement.offsetHeight - window.scrollY
  <= window.screen.height
  ```
@@ -207,7 +195,7 @@ v0.4.1 beta
  8.如何设置登录功能？
 
  解决办法：因为官方只提供了`access-token`，所以可以将此值和一些用户相关的数值，存入`document.cookie`中，存入的函数我单独写了一个`cookie`的工具函数，代码如下：
- ```
+ ```javascript
 /**
  * Created by jerryshen on 2017/7/15.
  * 用户本地cookie的存取以及清空
@@ -273,7 +261,7 @@ export function deleteCookie (name) {
  9.如何将API中的时间转换成 => ..年前，..月前，..天前等等，这种类型的格式呢？
 
  解决办法：我自己写了一个格式化的工具函数，代码如下：
- ```
+ ```javascript
  export default function timeFormat (date) {
    // 获取当前时间和所传时间的Date对象
    const nowTime = new Date()
