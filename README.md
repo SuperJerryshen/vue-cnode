@@ -307,6 +307,43 @@ export function deleteCookie (name) {
  14.如何实现全局的消息提醒？
  
  解决办法：我是通过一个和路由同级的组件`Messages`，并且创建了一个状态管理的模块`messages`，在其中通过`state: messages`存放现在显示的的通知数据，利用`Messages`组件和`vuex`的`actions`控制其显示。
+ 
+ 15.因为Publish组件中加入了`mavon-editor`，所以使得整个应用完全加载会非常耗时，怎样实现异步加载Publish组件？
+ 
+ 解决办法：可以通过webpack提供的`code-split`，具体代码如下：
+ ```javascript
+ // 通过this.a.app来访问Vue实例对象，实现dispatch来增加加载状态
+const Publish = resolve => {
+  this.a.app.$store.dispatch('changeLoadingStatus', true)
+  require.ensure(['../components/Publish/Publish'], () => {
+    resolve(require('../components/Publish/Publish'))
+  }).then(() => {
+    // this.$store.dispatch('changeLoadingStatus', false)
+    this.a.app.$store.dispatch('changeLoadingStatus', false)
+  })
+}
+```
+16.bug：进入用户详情页时，再进入另外一个用户的详情页时，因为用的是同一个组件，路由变化了，但是数据没有变化。
+
+解决办法：通过`watch`，监听`route`变化，发生变化就请求数据并更新数据。并且将`UserDetail`设置为不保存其状态的组件，即`keep-alive`选项中添加`exclude="UserDetail"`(因为保存其在内存中的话，会出现路由`/user/undefined`，会出现一直显示正在加载页面的bug)。
+
+具体代码如下：
+```javascript
+export default {
+  // 其他代码省略
+    methods: {
+      getUserData () {
+        // 异步获取数据代码，此处省略
+      }
+    },
+    watch: {
+      '$route': 'getUserData'
+    },
+    created () {
+      this.getUserData()
+    }
+  }
+```
 
 ## 安装
 

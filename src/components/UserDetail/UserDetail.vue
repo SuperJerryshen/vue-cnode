@@ -39,6 +39,7 @@
   import timeFormat from '../../common/utils/timeFormat'
 
   export default {
+    name: 'UserDetail',
     components: {
       BackBar,
       ArticleCard
@@ -51,13 +52,25 @@
     filters: {
       timeFormat
     },
-    activated () {
-      this.$store.dispatch('changeLoadingStatus', true)
-      this.axios.get(`https://cnodejs.org/api/v1/user/${this.$route.params.loginname}`)
-        .then(res => {
-          this.$store.dispatch('changeLoadingStatus', false)
-          this.$store.dispatch('initUserDetailData', res.data.data)
-        })
+    methods: {
+      getUserData () {
+        // 首先恢复scrollTop值至0
+        window.scrollTo(0, 0)
+        // 先显示正在加载页面
+        this.$store.dispatch('changeLoadingStatus', true)
+        // 异步获取数据
+        this.axios.get(`https://cnodejs.org/api/v1/user/${this.$route.params.loginname}`)
+          .then(res => {
+            this.$store.dispatch('changeLoadingStatus', false)
+            this.$store.dispatch('initUserDetailData', res.data.data)
+          })
+      }
+    },
+    watch: {
+      '$route': 'getUserData'
+    },
+    created () {
+      this.getUserData()
     }
   }
 </script>
@@ -77,8 +90,8 @@
         width: 100%;
         font-size: 20px;
         line-height: 48px;
-        color: #ffffff;
-        background: #13CE66;
+        color: #1c2438;
+        background: #e9eaec;
         text-indent: 20px;
       }
       .user-info {

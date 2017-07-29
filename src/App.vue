@@ -1,7 +1,7 @@
 <script src="store/store.js"></script>
 <template>
   <div id="app">
-    <keep-alive>
+    <keep-alive exclude="UserDetail">
       <router-view></router-view>
     </keep-alive>
     <messages></messages>
