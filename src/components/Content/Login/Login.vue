@@ -16,7 +16,7 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import BackBar from '../BackBar/BackBar'
+  import BackBar from '../../BackBar/BackBar'
 
   export default {
     methods: {

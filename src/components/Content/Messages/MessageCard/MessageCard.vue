@@ -13,7 +13,7 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import timeFormat from '../../common/utils/timeFormat'
+  import timeFormat from '../../../../common/utils/timeFormat'
 
   export default {
     methods: {

@@ -25,7 +25,7 @@
 
 <script type="text/ecmascript-6">
   import BackBar from '../BackBar/BackBar'
-  import MessageCard from '../MessageCard/MessageCard'
+  import MessageCard from '../Content/Messages/MessageCard/MessageCard'
   import { mapGetters } from 'vuex'
 
   export default {

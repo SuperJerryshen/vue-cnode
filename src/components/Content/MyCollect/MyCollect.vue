@@ -10,7 +10,7 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import BackBar from '../BackBar/BackBar'
+  import BackBar from '../../BackBar/BackBar'
   import ArticleCard from '../ArticleCard/ArticleCard'
   import { mapGetters } from 'vuex'
 

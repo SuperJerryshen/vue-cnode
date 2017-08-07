@@ -19,3 +19,5 @@ export const SYNC_REPLY_DATA = 'SYNC_REPLY_DATA'
 export const SYNC_REPLY_UP = 'SYNC_REPLY_UP'
 // 当输入框失去焦点时，改变isFocus的状态到false
 export const FOCUS_IS_FALSE = 'FOCUS_IS_FALSE'
+// 改变评论的分类方式
+export const CHANGE_COMMENT_SORTING = 'CHANGE_COMMENT_SORTING'

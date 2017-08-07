@@ -25,7 +25,7 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import BackBar from '../BackBar/BackBar'
+  import BackBar from '../../BackBar/BackBar'
   import { mapGetters } from 'vuex'
   import { mavonEditor } from 'mavon-editor'
   import 'mavon-editor/dist/css/index.css'

@@ -14,25 +14,7 @@
           }}</span> · <span class="tab">{{ tabTypes[articleData.tab] }}</span>
         </div>
         <div class="content" v-html="articleData.content"></div>
-        <div class="reply">
-          <h1 class="title">{{ articleData && articleData.replies.length }} 回复</h1>
-          <ul class="comments">
-            <li class="comment" v-for="(item,idx) in articleData.replies">
-              <div class="reply-author">
-                <img @click="toAuthorDetail(item.author.loginname)" class="avatar" :src="item.author.avatar_url"
-                     alt="author"/>
-                <span class="loginname">{{ item.author.loginname }}</span>
-                <span class="floor">{{ idx + 1 }}楼</span> ·
-                <span class="time">{{ item.create_at | timeFormat }}</span>
-              </div>
-              <div class="ups">
-                <i class="iconfont icon-praise" @click="upReply(item.id)" :class="{'uped': item.is_uped}"></i><span>{{ item.ups.length }}</span>
-                <i class="iconfont icon-reply" @click="replyAt({name: item.author.loginname, id: item.reply_id, num: idx + 1})"></i>
-              </div>
-              <div class="text" v-html="item.content"></div>
-            </li>
-          </ul>
-        </div>
+        <Comments :comments="articleData.replies"></Comments>
         <bottom-bar
           :topicId="articleData.id"
           :isCollect="articleData.is_collect"
@@ -48,8 +30,9 @@
 <script type="text/ecmascript-6">
   import { mapGetters } from 'vuex'
   import BackBar from '../BackBar/BackBar'
-  import BottomBar from '../BottomBar/BottomBar'
+  import BottomBar from './BottomBar/BottomBar'
   import timeFormat from '../../common/utils/timeFormat'
+  import Comments from './Comments'
 
   export default {
     data () {
@@ -60,29 +43,6 @@
           'job': '招聘',
           'dev': '客户端测试'
         }
-      }
-    },
-    methods: {
-      toAuthorDetail (name) {
-        this.$router.push(`/user/${name}`)
-      },
-      replyAt (username) {
-        this.$store.dispatch('reply_at', username)
-      },
-      upReply (id) {
-        this.axios.post(`https://cnodejs.org/api/v1/reply/${id}/ups`, {
-          accesstoken: this.userData.accesstoken
-        }).then(res => {
-          if (res.data.success) {
-            this.$store.dispatch('sync_reply_up', {
-              id,
-              action: res.data.action,
-              uper: this.userData.id
-            })
-          }
-        }, () => {
-          this.$store.dispatch('connect_fail')
-        })
       }
     },
     computed: {
@@ -117,7 +77,8 @@
     },
     components: {
       BackBar,
-      BottomBar
+      BottomBar,
+      Comments
     }
   }
 </script>
@@ -180,63 +141,6 @@
         .content {
           .markdown-text {
             padding: 25px 20px;
-          }
-        }
-        .reply {
-          .title {
-            font-size: 14px;
-            padding-bottom: 10px;
-            text-indent: 1.5em;
-            color: #475669;
-          }
-          .comments {
-            background-color: #ffffff;
-            .comment {
-              padding-top: 5px;
-              position: relative;
-              .reply-author {
-                height: 36px;
-                line-height: 36px;
-                font-size: 12px;
-                padding-left: 15px;
-                .avatar {
-                  width: 36px;
-                  height: 36px;
-                  border-radius: 50%;
-                  border: 1px solid #EFF2F7;
-                  vertical-align: middle;
-                }
-                .loginname {
-                  color: #475669;
-                }
-                .floor, .time {
-                  color: #20A0FF;
-                }
-              }
-              .ups {
-                position: absolute;
-                top: 12px;
-                right: 0;
-                color: #4f6275;
-                .icon-praise {
-                  font-size: 20px;
-                  padding: 10px 2px 10px 10px;
-                  &.uped {
-                    color: #20a0ff;
-                  }
-                }
-                .icon-reply {
-                  font-size: 20px;
-                  padding: 10px 10px 10px 0;
-                }
-              }
-              .text {
-                font-size: 14px;
-                .markdown-text {
-                  padding: 8px 25px;
-                }
-              }
-            }
           }
         }
       }

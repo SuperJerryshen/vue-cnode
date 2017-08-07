@@ -11,7 +11,7 @@
 
 <script>
   import './common/style/icon.scss'
-  import Messages from './components/Messages/Messages'
+  import Messages from './components/Content/Messages/Messages'
   import Loading from './components/Loading/Loading'
 
   export default {

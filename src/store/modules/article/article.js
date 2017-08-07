@@ -26,7 +26,8 @@ const state = {
   replyData: '',
   replyAtId: '',
   addReplyAt: 0,
-  isFocus: false
+  isFocus: false,
+  sortingMethod: 'default'
 }
 
 const getters = {
@@ -34,7 +35,8 @@ const getters = {
   replyData: state => state.replyData,
   replyAtId: state => state.replyAtId,
   addReplyAt: state => state.addReplyAt,
-  isFocus: state => state.isFocus
+  isFocus: state => state.isFocus,
+  sortingMethod: state => state.sortingMethod
 }
 
 const mutations = {
@@ -84,6 +86,9 @@ const mutations = {
   },
   [types.FOCUS_IS_FALSE] (state) {
     state.isFocus = false
+  },
+  [types.CHANGE_COMMENT_SORTING] (state, method) {
+    state.sortingMethod = method
   }
 }
 
@@ -114,6 +119,9 @@ const actions = {
   },
   focus_is_false ({ commit }) {
     commit(types.FOCUS_IS_FALSE)
+  },
+  change_comment_sorting ({ commit }, method) {
+    commit(types.CHANGE_COMMENT_SORTING, method)
   }
 }
 

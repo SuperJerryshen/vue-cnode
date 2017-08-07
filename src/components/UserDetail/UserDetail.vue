@@ -34,7 +34,7 @@
 
 <script type="text/ecmascript-6">
   import BackBar from '../BackBar/BackBar'
-  import ArticleCard from '../ArticleCard/ArticleCard'
+  import ArticleCard from '../Content/ArticleCard/ArticleCard'
   import { mapGetters } from 'vuex'
   import timeFormat from '../../common/utils/timeFormat'
 

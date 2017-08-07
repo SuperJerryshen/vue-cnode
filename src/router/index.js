@@ -1,10 +1,10 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Article from '../components/Article/Article'
-import Content from '../components/Content/Content'
+import Content from '../components/Content'
 import UserDetail from '../components/UserDetail/UserDetail'
-import Login from '../components/Login/Login'
-import MyCollect from '../components/MyCollect/MyCollect'
+import Login from '../components/Content/Login/Login'
+import MyCollect from '../components/Content/MyCollect/MyCollect'
 import Notification from '../components/Notification/Notification'
 
 // 异步加载Publish发布文章组件，因为此组件较大
@@ -12,7 +12,7 @@ import Notification from '../components/Notification/Notification'
 const Publish = resolve => {
   this.a.app.$store.dispatch('changeLoadingStatus', true)
   require.ensure(['../components/Publish/Publish'], () => {
-    resolve(require('../components/Publish/Publish'))
+    resolve(require('../components/Content/Publish/Publish'))
   }).then(() => {
     // this.$store.dispatch('changeLoadingStatus', false)
     this.a.app.$store.dispatch('changeLoadingStatus', false)

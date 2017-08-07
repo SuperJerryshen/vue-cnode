@@ -26,9 +26,9 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import ArticleCard from '../ArticleCard/ArticleCard'
+  import ArticleCard from './ArticleCard/ArticleCard'
   import { mapGetters } from 'vuex'
-  import NavBar from '../navBar/navBar'
+  import NavBar from './navBar/navBar'
 
   export default {
     computed: {
