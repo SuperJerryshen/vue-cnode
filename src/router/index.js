@@ -12,7 +12,7 @@ import Notification from '../components/Notification/Notification'
 const Publish = resolve => {
   this.a.app.$store.dispatch('changeLoadingStatus', true)
   require.ensure(['../components/Publish/Publish'], () => {
-    resolve(require('../components/Content/Publish/Publish'))
+    resolve(require('../components/Publish/Publish'))
   }).then(() => {
     // this.$store.dispatch('changeLoadingStatus', false)
     this.a.app.$store.dispatch('changeLoadingStatus', false)
