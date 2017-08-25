@@ -31,6 +31,7 @@ Vue.use(Router)
 // ⑦ 我的通知页
 
 export default new Router({
+  scrollBehavior: () => ({y: 0}),
   routes: [
     {
       path: '/',
