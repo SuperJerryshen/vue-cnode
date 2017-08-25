@@ -34,6 +34,7 @@
       isFocus (val, oldVal) {
         if (val) {
           this.$refs.input.focus()
+          this.$refs.input.scrollIntoView(true)
         }
       }
     },
