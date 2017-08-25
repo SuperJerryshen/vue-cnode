@@ -85,9 +85,6 @@
         }, 5)
       },
       scrollFunc () {
-        // 记录主页的scrollY值，再次返回主业时回复到之前的scroll位置
-        this.$store.dispatch('record_scroll_top', window.scrollY)
-
         if (!this.isRequesting && document.documentElement.offsetHeight - window.scrollY <= window.screen.height) {
           // 对于手机端，仅仅通过高度差判断，且条件成立时，屏幕有可能还在滑动，就会触发更多次请求
           // 为了解决这个问题，在vuex加入了一个isLoading的变量，表示现在正在请求加载数据
@@ -133,6 +130,11 @@
     deactivated () {
       // 当转移到其他路由时，移除scroll事件
       window.removeEventListener('scroll', this.scrollFunc)
+    },
+    beforeRouteLeave (to, from, next) {
+      // 记录主页的scrollY值，再次返回主业时回复到之前的scroll位置
+      this.$store.dispatch('record_scroll_top', window.scrollY)
+      next()
     },
     components: {
       NavBar,
