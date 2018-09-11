@@ -7,39 +7,37 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import { mapGetters } from 'vuex'
+import { mapGetters } from 'vuex';
 
-  export default {
-    computed: {
-      ...mapGetters([
-        'sortingMethod'
-      ])
-    },
-    methods: {
-      changeSort (method) {
-        if (method !== this.sortingMethod) {
-          this.$store.dispatch('change_comment_sorting', method)
-        }
+export default {
+  computed: {
+    ...mapGetters(['sortingMethod']),
+  },
+  methods: {
+    changeSort(method) {
+      if (method !== this.sortingMethod) {
+        this.$store.dispatch('change_comment_sorting', method);
       }
-    }
-  }
+    },
+  },
+};
 </script>
 
 <style lang="scss" rel="stylesheet/scss">
-  .comment-sorter {
-    list-style: none;
-    background-color: #EFEBE9;
-    border-radius: 6px;
-    overflow: hidden;
-    .method {
-      float: left;
-      line-height: 20px;
-      font-size: 12px;
-      padding: 0 8px;
-      &.active {
-        background-color: #20A0FF;
-        color: #f4f4f4;
-      }
+.comment-sorter {
+  list-style: none;
+  background-color: #efebe9;
+  border-radius: 6px;
+  overflow: hidden;
+  .method {
+    float: left;
+    line-height: 20px;
+    font-size: 12px;
+    padding: 0 8px;
+    &.active {
+      background-color: #20a0ff;
+      color: #f4f4f4;
     }
   }
+}
 </style>

@@ -1,25 +1,27 @@
-import Vue from 'vue'
-import Router from 'vue-router'
-import Article from '../components/Article/Article'
-import Content from '../components/Content'
-import UserDetail from '../components/UserDetail/UserDetail'
-import Login from '../components/Content/Login/Login'
-import MyCollect from '../components/Content/MyCollect/MyCollect'
-import Notification from '../components/Notification/Notification'
+import Vue from 'vue';
+import Router from 'vue-router';
+import Article from '../components/Article/Article';
+import Content from '../components/Content';
+import UserDetail from '../components/UserDetail/UserDetail';
+import Login from '../components/Content/Login/Login';
+import MyCollect from '../components/Content/MyCollect/MyCollect';
+import Notification from '../components/Notification/Notification';
 
 // 异步加载Publish发布文章组件，因为此组件较大
 // 加载时显示加载页面
-const Publish = resolve => {
-  this.a.app.$store.dispatch('changeLoadingStatus', true)
-  require.ensure(['../components/Publish/Publish'], () => {
-    resolve(require('../components/Publish/Publish'))
-  }).then(() => {
-    // this.$store.dispatch('changeLoadingStatus', false)
-    this.a.app.$store.dispatch('changeLoadingStatus', false)
-  })
-}
+const Publish = (resolve) => {
+  this.a.app.$store.dispatch('changeLoadingStatus', true);
+  require
+    .ensure(['../components/Publish/Publish'], () => {
+      resolve(require('../components/Publish/Publish'));
+    })
+    .then(() => {
+      // this.$store.dispatch('changeLoadingStatus', false)
+      this.a.app.$store.dispatch('changeLoadingStatus', false);
+    });
+};
 
-Vue.use(Router)
+Vue.use(Router);
 
 // 输出七个组件的路由：
 // ① 主页
@@ -31,42 +33,42 @@ Vue.use(Router)
 // ⑦ 我的通知页
 
 export default new Router({
-  scrollBehavior: () => ({y: 0}),
+  scrollBehavior: () => ({ y: 0 }),
   routes: [
     {
       path: '/',
       name: 'home',
-      component: Content
+      component: Content,
     },
     {
       path: '/article/:id',
       name: 'article',
-      component: Article
+      component: Article,
     },
     {
       path: '/user/:loginname',
       name: 'user',
-      component: UserDetail
+      component: UserDetail,
     },
     {
       path: '/login',
       name: 'login',
-      component: Login
+      component: Login,
     },
     {
       path: '/publish',
       name: 'publish',
-      component: Publish
+      component: Publish,
     },
     {
       path: '/collect/:loginname',
       name: 'collect',
-      component: MyCollect
+      component: MyCollect,
     },
     {
       path: '/notification',
       name: 'notification',
-      component: Notification
-    }
-  ]
-})
+      component: Notification,
+    },
+  ],
+});

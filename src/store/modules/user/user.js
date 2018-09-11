@@ -1,4 +1,4 @@
-import * as types from './user-mutation-types'
+import * as types from './user-mutation-types';
 
 const state = {
   userDetailData: {
@@ -8,29 +8,29 @@ const state = {
     create_at: '',
     score: 0,
     recent_topics: [],
-    recent_replies: []
-  }
-}
+    recent_replies: [],
+  },
+};
 
 const getters = {
-  userDetailData: state => state.userDetailData
-}
+  userDetailData: state => state.userDetailData,
+};
 
 const mutations = {
-  [types.INIT_USER_DETAIL_DATA] (state, data) {
-    state.userDetailData = data
-  }
-}
+  [types.INIT_USER_DETAIL_DATA](state, data) {
+    state.userDetailData = data;
+  },
+};
 
 const actions = {
-  initUserDetailData ({commit}, data) {
-    commit(types.INIT_USER_DETAIL_DATA, data)
-  }
-}
+  initUserDetailData({ commit }, data) {
+    commit(types.INIT_USER_DETAIL_DATA, data);
+  },
+};
 
 export default {
   state,
   getters,
   mutations,
-  actions
-}
+  actions,
+};

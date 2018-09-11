@@ -34,62 +34,62 @@
 </template>
 
 <script type="text/ecmascript-6">
-  export default {
-    methods: {
-      changeAboutMeShow () {
-        this.$store.dispatch('changeAboutMeShow')
-      }
-    }
-  }
+export default {
+  methods: {
+    changeAboutMeShow() {
+      this.$store.dispatch('changeAboutMeShow');
+    },
+  },
+};
 </script>
 
 <style lang="scss" rel="stylesheet/scss">
-  .about-me-wrap {
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    z-index: 1000;
-    color: #F9FAFC;
-    word-wrap: break-word;
-    /*对容器内的所有a标签添加颜色样式*/
-    a {
-      color: #58B7FF;
+.about-me-wrap {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  color: #f9fafc;
+  word-wrap: break-word;
+  /*对容器内的所有a标签添加颜色样式*/
+  a {
+    color: #58b7ff;
+  }
+  .about-me {
+    position: absolute;
+    top: 20%;
+    left: 10%;
+    width: 80%;
+    height: 60%;
+    border-radius: 20px;
+    background-color: rgba(7, 17, 27, 0.7);
+    padding: 5%;
+    text-align: center;
+    font-size: 14px;
+    overflow: scroll;
+    -webkit-overflow-scrolling: touch;
+    overflow-scrolling: touch;
+    overflow-x: hidden;
+    h2 {
+      padding-bottom: 10px;
+      margin-bottom: 10px;
+      border-bottom: 1px solid #e5e9f2;
+      font-size: 28px;
     }
-    .about-me {
-      position: absolute;
-      top: 20%;
-      left: 10%;
-      width: 80%;
-      height: 60%;
-      border-radius: 20px;
-      background-color: rgba(7, 17, 27, .7);
-      padding: 5%;
-      text-align: center;
-      font-size: 14px;
-      overflow: scroll;
-      -webkit-overflow-scrolling: touch;
-      overflow-scrolling: touch;
-      overflow-x: hidden;
-      h2 {
-        padding-bottom: 10px;
-        margin-bottom: 10px;
-        border-bottom: 1px solid #E5E9F2;
-        font-size: 28px;
-      }
-      div {
-        margin: 0 20px;
-      }
-      h3 {
-        line-height: 40px;
-        font-size: 20px;
-      }
+    div {
+      margin: 0 20px;
     }
-    .shade {
-      width: 100%;
-      height: 100%;
-      background-color: rgba(7, 17, 27, .7);
+    h3 {
+      line-height: 40px;
+      font-size: 20px;
     }
   }
+  .shade {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(7, 17, 27, 0.7);
+  }
+}
 </style>

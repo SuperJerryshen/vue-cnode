@@ -23,117 +23,115 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import timeFormat from '../../../common/utils/timeFormat'
+import timeFormat from '../../../common/utils/timeFormat';
 
-  export default {
-    data () {
-      return {
-        tabTypes: {
-          'good': '精华',
-          'share': '分享',
-          'ask': '问答',
-          'job': '招聘',
-          'dev': '客户端测试'
-        }
-      }
-    },
-    methods: {
-      toAuthorDetail () {
-        this.$router.push(`/user/${this.article.author.loginname}`)
-      }
-    },
-    filters: {
-      'timeFormat': timeFormat
-    },
-    props: {
-      article: {
-        type: Object,
-        required: true
+export default {
+  data() {
+    return {
+      tabTypes: {
+        good: '精华',
+        share: '分享',
+        ask: '问答',
+        job: '招聘',
+        dev: '客户端测试',
       },
-      simpleMode: {
-        type: Boolean,
-        default: false
-      }
-    }
-  }
+    };
+  },
+  methods: {
+    toAuthorDetail() {
+      this.$router.push(`/user/${this.article.author.loginname}`);
+    },
+  },
+  filters: {
+    timeFormat,
+  },
+  props: {
+    article: {
+      type: Object,
+      required: true,
+    },
+    simpleMode: {
+      type: Boolean,
+      default: false,
+    },
+  },
+};
 </script>
 
 <style lang="scss" rel="stylesheet/scss">
-  /*屏幕宽度小于450px的设备*/
-  @media screen and (max-width: 1200px) {
-    .article-card {
-      width: 100%;
-
-    }
-  }
-
-  /*屏幕宽度大于1200px的设备*/
-  @media screen and (min-width: 1200px) {
-    .article-card {
-      width: 1200px;
-    }
-  }
-
+/*屏幕宽度小于450px的设备*/
+@media screen and (max-width: 1200px) {
   .article-card {
-    margin: 0 auto;
-    padding: 12px 24px;
-    border-bottom: 1px solid #EFF2F7;
-    background-color: #ffffff;
-    font-size: 10px;
-    position: relative;
-    min-height: 100px;
-    &:hover {
-      background-color: #F9FAFC;
-    }
-    /*对置顶，精华，和类型分配颜色样式*/
-    .top {
-      color: #FF4949;
-    }
-    .good {
-      color: #F7BA2A;
-    }
-    .tab {
-      color: #20A0FF;
-    }
-    /*标题样式*/
-    .title {
-      font-size: 16px;
-      padding: 10px 60px 10px 0;
-      word-wrap: break-word;
-    }
-    /*用户头像及用户名*/
-    .author {
-      position: absolute;
-      bottom: 50%;
-      transform: translateY(50%);
-      right: 20px;
-      text-align: center;
+    width: 100%;
+  }
+}
+
+/*屏幕宽度大于1200px的设备*/
+@media screen and (min-width: 1200px) {
+  .article-card {
+    width: 1200px;
+  }
+}
+
+.article-card {
+  margin: 0 auto;
+  padding: 12px 24px;
+  border-bottom: 1px solid #eff2f7;
+  background-color: #ffffff;
+  font-size: 10px;
+  position: relative;
+  min-height: 100px;
+  &:hover {
+    background-color: #f9fafc;
+  }
+  /*对置顶，精华，和类型分配颜色样式*/
+  .top {
+    color: #ff4949;
+  }
+  .good {
+    color: #f7ba2a;
+  }
+  .tab {
+    color: #20a0ff;
+  }
+  /*标题样式*/
+  .title {
+    font-size: 16px;
+    padding: 10px 60px 10px 0;
+    word-wrap: break-word;
+  }
+  /*用户头像及用户名*/
+  .author {
+    position: absolute;
+    bottom: 50%;
+    transform: translateY(50%);
+    right: 20px;
+    text-align: center;
+    width: 48px;
+    .avatar {
       width: 48px;
-      .avatar {
-        width: 48px;
-        height: 48px;
-        border-radius: 50%;
-        border: 1px solid #EFF2F7;
-      }
-      .loginname {
-        color: #475669;
-        font-size: 10px;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-      }
+      height: 48px;
+      border-radius: 50%;
+      border: 1px solid #eff2f7;
     }
-    .info {
-      font-size: 12px;
+    .loginname {
       color: #475669;
-      padding: 2px 5px;
-      border-radius: 10px;
-      border: 1px solid #E5E9F2;
-      display: inline-block;
-      .iconfont {
-        font-size: 12px;
-      }
+      font-size: 10px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
   }
-
+  .info {
+    font-size: 12px;
+    color: #475669;
+    padding: 2px 5px;
+    border-radius: 10px;
+    border: 1px solid #e5e9f2;
+    display: inline-block;
+    .iconfont {
+      font-size: 12px;
+    }
+  }
+}
 </style>

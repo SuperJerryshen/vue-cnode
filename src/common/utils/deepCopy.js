@@ -1,17 +1,17 @@
 // 用于深拷贝
 
-export function deepCopy (obj) {
+export function deepCopy(obj) {
   if (typeof obj !== 'object' || obj === null) {
-    return obj
+    return obj;
   }
-  var c
+  let c;
   if (obj instanceof Array) {
-    c = []
+    c = [];
   } else {
-    c = {}
+    c = {};
   }
-  Object.keys(obj).forEach(key => {
-    c[key] = deepCopy(obj[key])
-  })
-  return c
+  Object.keys(obj).forEach((key) => {
+    c[key] = deepCopy(obj[key]);
+  });
+  return c;
 }
