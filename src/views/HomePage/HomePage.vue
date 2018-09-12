@@ -44,6 +44,7 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import { slideTo } from '@jerryshen520/animate-scroll';
 
 import TopBar from '@/components/TopBar';
 import ArticleCard from '@/components/ArticleCard';
@@ -118,15 +119,9 @@ export default {
         );
     },
     backToTop() {
-      // 将返回顶部设置成250ms内完成的动画。
-      const topInterval = window.setInterval(() => {
-        if (window.scrollY < 1) {
-          window.scrollTo(0, 0);
-          window.clearInterval(topInterval);
-        } else {
-          window.scrollTo(0, (window.scrollY * 47) / 50);
-        }
-      }, 5);
+      slideTo(0, {
+        duration: 1000,
+      });
     },
     scrollFunc() {
       if (
