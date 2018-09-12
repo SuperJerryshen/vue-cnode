@@ -39,7 +39,7 @@
 </template>
 
 <script type="text/ecmascript-6">
-import BackBar from '../BackBar/BackBar';
+import BackBar from '@/components/BackBar';
 import { mapGetters } from 'vuex';
 import { mavonEditor } from 'mavon-editor';
 import 'mavon-editor/dist/css/index.css';
@@ -102,7 +102,7 @@ export default {
         .get(`https://cnodejs.org/api/v1/topic/${this.topicId}?mdrender=false`)
         .then(
           (res) => {
-            const data = res.data.data;
+            const { data } = res.data;
             this.$refs.title.value = data.title;
             this.$refs.tab.value = data.tab;
             this.editorContent = data.content;

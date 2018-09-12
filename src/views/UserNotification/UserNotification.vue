@@ -3,29 +3,40 @@
     <back-bar :title="'我的通知'"></back-bar>
     <div class="not-read">
       <h2 class="title">未读消息</h2>
-      <div class="mark-all" v-if="messageData.hasnot_read_messages.length" @click="markAll">标记所有已读</div>
-      <ul class="not-read-list" v-if="messageData.hasnot_read_messages.length">
-        <li v-for="msg in messageData.hasnot_read_messages">
-          <message-card :data="msg" :hasRead="false" :accesstoken="userData.accesstoken"></message-card>
+      <div class="mark-all"
+           v-if="messageData.hasnot_read_messages.length"
+           @click="markAll">标记所有已读</div>
+      <ul class="not-read-list"
+          v-if="messageData.hasnot_read_messages.length">
+        <li v-for="(msg, idx) in messageData.hasnot_read_messages"
+            :key="idx">
+          <message-card :data="msg"
+                        :hasRead="false"
+                        :accesstoken="userData.accesstoken"></message-card>
         </li>
       </ul>
-      <p v-if="!messageData.hasnot_read_messages.length" class="no-msg">暂无消息</p>
+      <p v-if="!messageData.hasnot_read_messages.length"
+         class="no-msg">暂无消息</p>
     </div>
     <div class="has-read">
       <h2 class="title">已读消息</h2>
-      <ul class="has-read-list" v-if="messageData.has_read_messages.length">
-        <li v-for="msg in messageData.has_read_messages">
-          <message-card :data="msg" :accesstoken="userData.accesstoken"></message-card>
+      <ul class="has-read-list"
+          v-if="messageData.has_read_messages.length">
+        <li v-for="(msg, idx) in messageData.has_read_messages"
+            :key="idx">
+          <message-card :data="msg"
+                        :accesstoken="userData.accesstoken"></message-card>
         </li>
       </ul>
-      <p v-if="!messageData.has_read_messages.length" class="no-msg">暂无消息</p>
+      <p v-if="!messageData.has_read_messages.length"
+         class="no-msg">暂无消息</p>
     </div>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
-import BackBar from '../BackBar/BackBar';
-import MessageCard from '../Content/Messages/MessageCard/MessageCard';
+import BackBar from '@/components/BackBar';
+import MessageCard from '@/components/MessageCard';
 import { mapGetters } from 'vuex';
 
 export default {
@@ -43,7 +54,7 @@ export default {
           accesstoken: this.userData.accesstoken,
         })
         .then(
-          (res) => {
+          () => {
             this.$store.dispatch('add_success', { content: '标记成功' });
             this.$store.dispatch('mark_all');
           },

@@ -2,7 +2,8 @@
   <div class="collect-wrap">
     <back-bar :title="'我的收藏'"></back-bar>
     <ul class="collect">
-      <li v-for="item in myCollections">
+      <li v-for="(item, idx) in myCollections"
+          :key="idx">
         <article-card :article="item"></article-card>
       </li>
     </ul>
@@ -10,9 +11,9 @@
 </template>
 
 <script type="text/ecmascript-6">
-import BackBar from '../../BackBar/BackBar';
-import ArticleCard from '../ArticleCard/ArticleCard';
 import { mapGetters } from 'vuex';
+import BackBar from '@/components/BackBar';
+import ArticleCard from '@/components/ArticleCard';
 
 export default {
   components: {

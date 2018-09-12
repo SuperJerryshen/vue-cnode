@@ -31,10 +31,10 @@
 </template>
 
 <script type="text/ecmascript-6">
+import { mapGetters } from 'vuex';
 import timeFormat from '../../common/utils/timeFormat';
 import { deepCopy } from '../../common/utils/deepCopy';
-import CommentSorter from './CommentSorter';
-import { mapGetters } from 'vuex';
+import CommentSorter from './CommentSorter.vue';
 
 export default {
   computed: {

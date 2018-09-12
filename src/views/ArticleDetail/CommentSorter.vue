@@ -1,8 +1,14 @@
 <template>
   <ul class="comment-sorter">
-    <li class="method" @click="changeSort('default')" :class="[sortingMethod === 'default' ? 'active' : '']">默认</li>
-    <li class="method" @click="changeSort('time')" :class="[sortingMethod === 'time' ? 'active' : '']">时间</li>
-    <li class="method" @click="changeSort('hot')" :class="[sortingMethod === 'hot' ? 'active' : '']">热度</li>
+    <li class="method"
+        @click="changeSort('default')"
+        :class="[sortingMethod === 'default' ? 'active' : '']">默认</li>
+    <li class="method"
+        @click="changeSort('time')"
+        :class="[sortingMethod === 'time' ? 'active' : '']">时间</li>
+    <li class="method"
+        @click="changeSort('hot')"
+        :class="[sortingMethod === 'hot' ? 'active' : '']">热度</li>
   </ul>
 </template>
 

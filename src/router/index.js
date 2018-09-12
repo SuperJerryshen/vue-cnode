@@ -1,26 +1,13 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import Article from '../components/Article/Article.vue';
-import UserDetail from '../components/UserDetail/UserDetail.vue';
-import MyCollect from '../components/Content/MyCollect/MyCollect.vue';
-import Notification from '../components/Notification/Notification.vue';
 
 const HomePage = () => import('@/views/HomePage');
 const UserLogin = () => import('@/views/UserLogin');
-
-// 异步加载Publish发布文章组件，因为此组件较大
-// 加载时显示加载页面
-const Publish = (resolve) => {
-  this.a.app.$store.dispatch('changeLoadingStatus', true);
-  require
-    .ensure(['../components/Publish/Publish'], () => {
-      resolve(require('../components/Publish/Publish'));
-    })
-    .then(() => {
-      // this.$store.dispatch('changeLoadingStatus', false)
-      this.a.app.$store.dispatch('changeLoadingStatus', false);
-    });
-};
+const UserDetail = () => import('@/views/UserDetail');
+const UserNotification = () => import('@/views/UserNotification');
+const MyCollection = () => import('@/views/MyCollection');
+const ArticlePublish = () => import('@/views/ArticlePublish');
+const ArticleDetail = () => import('@/views/ArticleDetail');
 
 Vue.use(Router);
 
@@ -45,7 +32,7 @@ export default new Router({
     {
       path: '/article/:id',
       name: 'article',
-      component: Article,
+      component: ArticleDetail,
     },
     {
       path: '/user/:loginname',
@@ -60,17 +47,17 @@ export default new Router({
     {
       path: '/publish',
       name: 'publish',
-      component: Publish,
+      component: ArticlePublish,
     },
     {
       path: '/collect/:loginname',
       name: 'collect',
-      component: MyCollect,
+      component: MyCollection,
     },
     {
       path: '/notification',
       name: 'notification',
-      component: Notification,
+      component: UserNotification,
     },
   ],
 });

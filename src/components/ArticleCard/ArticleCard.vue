@@ -1,19 +1,29 @@
 <template>
   <div class="article-card">
     <span v-if="!simpleMode">
-      <span class="top" v-if="article.top">置顶</span><span v-if="article.top"> ·</span>
-      <span class="good" v-if="article.good">精华</span><span v-if="article.good"> ·</span>
+      <span class="top"
+            v-if="article.top">置顶</span>
+      <span v-if="article.top"> ·</span>
+      <span class="good"
+            v-if="article.good">精华</span>
+      <span v-if="article.good"> ·</span>
       <span class="tab">{{ this.tabTypes[article.tab] }}</span> ·
     </span>
     <span class="last-reply-time">{{ article.last_reply_at | timeFormat}}</span>
     <h1 class="title">
-      <router-link :to="{ name: 'article', params: {id: article.id}}">{{ article.title }}</router-link>
+      <router-link :to="{
+        name: 'article', params: {id: article.id}
+      }">{{ article.title }}</router-link>
     </h1>
-    <div class="author" @click="toAuthorDetail">
-      <img class="avatar" :src="article.author.avatar_url" alt="article.author.loginname">
+    <div class="author"
+         @click="toAuthorDetail">
+      <img class="avatar"
+           :src="article.author.avatar_url"
+           alt="article.author.loginname">
       <p class="loginname">{{ article.author.loginname }}</p>
     </div>
-    <div class="info" v-if="!simpleMode">
+    <div class="info"
+         v-if="!simpleMode">
       <i class="iconfont icon-clickQuery"></i>
       <span class="visit-count">{{ article.visit_count }}</span>
       <i class="iconfont icon-pinglun"></i>
