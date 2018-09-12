@@ -2,11 +2,11 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import Article from '../components/Article/Article.vue';
 import UserDetail from '../components/UserDetail/UserDetail.vue';
-import Login from '../components/Content/Login/Login.vue';
 import MyCollect from '../components/Content/MyCollect/MyCollect.vue';
 import Notification from '../components/Notification/Notification.vue';
 
 const HomePage = () => import('@/views/HomePage');
+const UserLogin = () => import('@/views/UserLogin');
 
 // 异步加载Publish发布文章组件，因为此组件较大
 // 加载时显示加载页面
@@ -54,8 +54,8 @@ export default new Router({
     },
     {
       path: '/login',
-      name: 'login',
-      component: Login,
+      name: 'userLogin',
+      component: UserLogin,
     },
     {
       path: '/publish',

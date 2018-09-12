@@ -1,7 +1,7 @@
 <template>
   <div class="nav-bar">
     <div class="nav-bar-wrap">
-      <a href="/"><img src="./cnodejs_light.svg"
+      <a href="/"><img src="@/common/pictures/cnodejs_light.svg"
              alt="CNode"
              class="logo"
              width="120"
@@ -91,7 +91,7 @@ export default {
       // ① 登  录：展示个人主页和退出的菜单
       // ② 未登录：显示登录窗口
       if (!this.isLogin) {
-        this.$router.push({ name: 'login' });
+        this.$router.push({ name: 'userLogin' });
       } else {
         this.isUserMenuShow = !this.isUserMenuShow;
       }

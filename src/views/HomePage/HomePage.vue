@@ -120,7 +120,7 @@ export default {
     },
     backToTop() {
       slideTo(0, {
-        duration: 1000,
+        duration: 400,
       });
     },
     scrollFunc() {
