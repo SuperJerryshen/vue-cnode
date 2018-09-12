@@ -1,25 +1,13 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import Article from '../components/Article/Article';
-import Content from '../components/Content';
-import UserDetail from '../components/UserDetail/UserDetail';
-import Login from '../components/Content/Login/Login';
-import MyCollect from '../components/Content/MyCollect/MyCollect';
-import Notification from '../components/Notification/Notification';
 
-// 异步加载Publish发布文章组件，因为此组件较大
-// 加载时显示加载页面
-const Publish = (resolve) => {
-  this.a.app.$store.dispatch('changeLoadingStatus', true);
-  require
-    .ensure(['../components/Publish/Publish'], () => {
-      resolve(require('../components/Publish/Publish'));
-    })
-    .then(() => {
-      // this.$store.dispatch('changeLoadingStatus', false)
-      this.a.app.$store.dispatch('changeLoadingStatus', false);
-    });
-};
+const HomePage = () => import('@/views/HomePage');
+const UserLogin = () => import('@/views/UserLogin');
+const UserDetail = () => import('@/views/UserDetail');
+const UserNotification = () => import('@/views/UserNotification');
+const MyCollection = () => import('@/views/MyCollection');
+const ArticlePublish = () => import('@/views/ArticlePublish');
+const ArticleDetail = () => import('@/views/ArticleDetail');
 
 Vue.use(Router);
 
@@ -34,16 +22,17 @@ Vue.use(Router);
 
 export default new Router({
   scrollBehavior: () => ({ y: 0 }),
+  mode: 'history',
   routes: [
     {
       path: '/',
-      name: 'home',
-      component: Content,
+      name: 'homePage',
+      component: HomePage,
     },
     {
       path: '/article/:id',
       name: 'article',
-      component: Article,
+      component: ArticleDetail,
     },
     {
       path: '/user/:loginname',
@@ -52,23 +41,23 @@ export default new Router({
     },
     {
       path: '/login',
-      name: 'login',
-      component: Login,
+      name: 'userLogin',
+      component: UserLogin,
     },
     {
       path: '/publish',
       name: 'publish',
-      component: Publish,
+      component: ArticlePublish,
     },
     {
       path: '/collect/:loginname',
       name: 'collect',
-      component: MyCollect,
+      component: MyCollection,
     },
     {
       path: '/notification',
       name: 'notification',
-      component: Notification,
+      component: UserNotification,
     },
   ],
 });
