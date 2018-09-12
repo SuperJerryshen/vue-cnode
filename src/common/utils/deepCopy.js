@@ -15,3 +15,7 @@ export function deepCopy(obj) {
   });
   return c;
 }
+
+export default {
+  deepCopy,
+};

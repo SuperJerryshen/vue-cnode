@@ -19,6 +19,7 @@
     "@vue/cli-plugin-eslint": "^3.0.2",
     "@vue/cli-service": "^3.0.2",
     "@vue/eslint-config-airbnb": "^3.0.2",
+    "babel-plugin-transform-export-extensions": "^6.22.0",
     "node-sass": "^4.9.3",
     "sass-loader": "^7.1.0",
     "vue-template-compiler": "^2.5.17"

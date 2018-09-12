@@ -7,7 +7,8 @@
 
 export function setCookie(name, value, exdays = 30) {
   const time = new Date();
-  time.setTime(time.getTime() + exdays * 24 * 3600 * 1000);
+  const addTime = exdays * 24 * 3600 * 1000;
+  time.setTime(time.getTime() + addTime);
   const expires = `expires=${time.toGMTString()}`;
   document.cookie = `${name}=${value};${expires}`;
 }
@@ -18,10 +19,11 @@ export function getAllCookies() {
   }
   const cookies = document.cookie.split(';');
   const newCookies = {};
-  for (let i = 0; i < cookies.length; i++) {
+  for (let i = 0; i < cookies.length; i += 1) {
     const cookie = cookies[i].trim();
     const splitCookie = cookie.split('=');
-    newCookies[splitCookie[0]] = splitCookie[1];
+    const [key, val] = splitCookie;
+    newCookies[key] = val;
   }
   return newCookies;
 }
@@ -29,7 +31,7 @@ export function getAllCookies() {
 export function getCookie(name) {
   const cname = `${name}=`;
   const cookies = document.cookie.split(';');
-  for (let i = 0; i < cookies.length; i++) {
+  for (let i = 0; i < cookies.length; i += 1) {
     const cookie = cookies[i].trim();
     if (cookie.indexOf(cname) === 0) {
       return {
@@ -40,14 +42,14 @@ export function getCookie(name) {
         },
       };
     }
-    return {
-      success: false,
-      cookie: {
-        name,
-        value: undefined,
-      },
-    };
   }
+  return {
+    success: false,
+    cookie: {
+      name,
+      value: undefined,
+    },
+  };
 }
 
 export function deleteAllCookie() {
