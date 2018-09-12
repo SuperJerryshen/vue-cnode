@@ -10,13 +10,11 @@
 
 <script>
 import './common/style/icon.scss';
-import Messages from './components/Content/Messages/Messages.vue';
 import Loading from './components/Loading/Loading.vue';
 
 export default {
   name: 'app',
   components: {
-    Messages,
     Loading,
   },
 };
